@@ -1,3 +1,5 @@
+import os, sys, time
+
 # Image
 
 imageWidth = 256
@@ -11,6 +13,9 @@ output = ""
 output += f"P3\n{imageWidth} {imageHeight} \n{maxColorVal}\n"
 
 for y in range(imageHeight):
+    sys.stdout.write("\r{0}".format("remaining: "+ str(imageHeight-y-1)))
+    sys.stdout.flush()
+    
     for x in range(imageWidth):
         r = x / (imageWidth-1) 
         g = y / (imageHeight-1)
@@ -22,6 +27,8 @@ for y in range(imageHeight):
 
         output += f"{ir} {ig} {ib}\n"
 
-with open("C:\\Users\\Magnus\\Magnus\\Code\\py\\raytracer\\v01\\output2.ppm", "w") as fp:
+with open("C:\\Users\\Magnus\\Magnus\\Code\\py\\raytracer\\v01\\pytracer\\output\\output2.ppm", "w") as fp:
     fp.write(output)
 
+os.system('cls')
+print("done!")
