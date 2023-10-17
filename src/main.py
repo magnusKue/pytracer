@@ -1,5 +1,8 @@
 import os, sys, time
 
+from vec import *
+from color import *
+
 # Image
 
 imageWidth = 256
@@ -19,15 +22,8 @@ for y in range(imageHeight):
     sys.stdout.flush()
 
     for x in range(imageWidth):
-        r = x / (imageWidth-1) 
-        g = y / (imageHeight-1)
-        b = 0
-
-        ir = int(255.999 * r)
-        ig = int(255.999 * g)
-        ib = int(255.999 * b)
-
-        output += f"{ir} {ig} {ib}\n"
+        color = col(x/(imageWidth-1), y/(imageHeight-1), 0)
+        output += str(color)
 
 with open("C:\\Users\\Magnus\\Magnus\\Code\\py\\raytracer\\v01\\pytracer\\output\\output2.ppm", "w") as fp:
     fp.write(output)
