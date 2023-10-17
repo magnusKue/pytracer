@@ -18,9 +18,9 @@ class vec3:
 
     def __sub__(self, o):
         return vec3(
-            self.x + o.x,
-            self.y + o.y,
-            self.z + o.z
+            self.x - o.x,
+            self.y - o.y,
+            self.z - o.z
         )
     
     def __isub__(self, o):
@@ -61,6 +61,19 @@ class vec3:
     
     def length(self) -> float:
         return math.sqrt(self.lengthSquared())
+
+def unitize(vec:vec3):
+    return vec/vec.length()
+
+def dot(vec1, vec2) -> float:
+    return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z
+
+def cross(vec1, vec2) -> vec3:
+    return vec3(
+        vec1.y * vec2.z - vec1.z * vec2.y,
+        vec1.z * vec2.x - vec1.x * vec2.z,
+        vec1.x * vec2.y - vec1.y * vec2.x
+    )
 
 class point3(vec3):
     def __init__(self, x, y, z) -> None:
