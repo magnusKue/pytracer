@@ -12,10 +12,12 @@ maxColorVal = 255
 output = ""
 output += f"P3\n{imageWidth} {imageHeight} \n{maxColorVal}\n"
 
+os.system('cls')
+
 for y in range(imageHeight):
-    sys.stdout.write("\r{0}".format("remaining: "+ str(imageHeight-y-1)))
+    sys.stdout.write("\r{0}".format("scanlines remaining: "+ str(imageHeight-y-1)))
     sys.stdout.flush()
-    
+
     for x in range(imageWidth):
         r = x / (imageWidth-1) 
         g = y / (imageHeight-1)
