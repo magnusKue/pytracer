@@ -6,12 +6,14 @@ from ray import *
 from collisions import *
 
 def rayColor(r:Ray) -> col:
-    if hitSphere(point3(0, 0, -1), 0.5, r):
-        return col(1,0,0)
+    t = hitSphere(point3(0, 0, -1), 0.5, r)
+    if t > 0.0:
+        surfaceNormal = unitize(r.step(t) - vec3(0,0,-1))
+        return 0.5*col(surfaceNormal.x+1, surfaceNormal.y+1, surfaceNormal.z+1)
 
     unitDirection = unitize(r.direction)
     lerpFac = 0.5 * (unitDirection.y+1)
-    resColor = ((1-lerpFac) * col(1,0,0)) + (lerpFac * col(0, 0, 1.0)) # lerps between two colors 
+    resColor = ((1-lerpFac) * col(1.0, 1.0, 1.0)) + (lerpFac * col(0.5, 0.7, 1.0)) # lerps between two colors 
     return resColor
 
 # Image
@@ -62,11 +64,12 @@ for y in range(imageHeight):
 
         ray = Ray(cameraCenter, rayDirection) # note: not a unit vector
         
-        # color = col(x/(imageWidth-1), y/(imageHeight-1), 0) # uv map coloring
+        #color = col(x/(imageWidth-1), y/(imageHeight-1), 0) # uv map coloring
         output += str(rayColor(ray))
+        
 
 with open("C:\\Users\\Magnus\\Magnus\\Code\\py\\raytracer\\v01\\pytracer\\output\\output2.ppm", "w") as fp:
     fp.write(output)
 
-os.system('cls')
+#os.system('cls')
 print(f"done in {int(time.time()-startTime)}s")
