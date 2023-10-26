@@ -19,7 +19,7 @@ def rayColor(r:Ray) -> col:
 # Image
 
 imageAR = 16/9 # aspect ratio
-imageWidth = 200
+imageWidth = 400
 imageHeight = int(imageWidth / imageAR)
 if imageHeight < 1: imageHeight = 1
 
@@ -27,7 +27,7 @@ if imageHeight < 1: imageHeight = 1
 
 focalLength = 1.0
 viewportH = 2.0
-viewportW = viewportH * int(imageWidth/imageHeight)
+viewportW = viewportH * imageWidth/imageHeight
 cameraCenter = point3(0,0,0)
 
 # Viewport edges 
