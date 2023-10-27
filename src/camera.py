@@ -8,7 +8,7 @@ from collisions import *
 class Camera:
     def __init__(self) -> None:
         self.imageAR = 16/9 # aspect ratio
-        self.imageWidth = 800
+        self.imageWidth = 400
         self.imageHeight = max(1, int(self.imageWidth / self.imageAR))
 
 

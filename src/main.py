@@ -16,8 +16,8 @@ scene.addObject(Sphere(
     )
 
 scene.addObject(Sphere(
-            pos=point3(2,0,-4),
-            radius=1,
+            pos=point3(0,0,-4),
+            radius=2.5,
             color = col(255,0,0)
         )
     )
