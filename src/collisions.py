@@ -12,7 +12,7 @@ def hitSphere(center, radius, r):
     if discriminant < 0:
         return -1.0
     else:
-        return (-b - sqrt(discriminant) ) / (2.0*a)
+        return (-b - sqrt(discriminant) ) / (2.0*a) 
     
 class hitRecord:
     def __init__(self) -> None:
@@ -37,8 +37,8 @@ class hittable:
     def hit(r:Ray, ray_tmin, ray_tmax, rec:hitRecord):
         pass
 
-class Sphere(hittable):
-    def __init__(self, center, radius) -> None:
+class _Sphere(hittable):
+    def __init__(self, position, center, radius) -> None:
         super().__init__()
         self.center = center
         self.radius = radius

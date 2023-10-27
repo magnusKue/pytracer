@@ -62,7 +62,7 @@ class vec3:
     def length(self) -> float:
         return math.sqrt(self.lengthSquared())
 
-def unitize(vec:vec3):
+def normalize(vec:vec3):
     return vec/vec.length()
 
 def dot(vec1, vec2) -> float:
