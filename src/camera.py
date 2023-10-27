@@ -8,7 +8,7 @@ from collisions import *
 class Camera:
     def __init__(self) -> None:
         self.imageAR = 16/9 # aspect ratio
-        self.imageWidth = 400
+        self.imageWidth = 800
         self.imageHeight = max(1, int(self.imageWidth / self.imageAR))
 
 
@@ -83,7 +83,7 @@ class Camera:
         normal = firstCollision[3]
         color = firstCollision[4]
 
-        color = 0.5*col(normal.x+1, normal.y+1, normal.z+1) # normal shading
+        #color = 0.5*col(normal.x+1, normal.y+1, normal.z+1) # normal shading
         return color
 
         

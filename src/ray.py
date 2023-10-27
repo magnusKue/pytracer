@@ -15,4 +15,3 @@ class Ray:
         return self.origin + (t * self.direction)
     
 
-

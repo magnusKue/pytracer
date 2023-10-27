@@ -9,11 +9,19 @@ from camera import *
 camera = Camera()
 scene = Scene()
 scene.addObject(Sphere(
-            pos=point3(0,0,-1),
-            radius=0.5,
+            pos=point3(-2,0,-4),
+            radius=.6,
+            color = col(0,0,255)
+        )
+    )
+
+scene.addObject(Sphere(
+            pos=point3(2,0,-4),
+            radius=1,
             color = col(255,0,0)
         )
     )
+scene.addObject(Floor(point3(0,-1,0), col(0,0,0), col(255,255,255)))
 
 maxColorVal = 255
 rendertarget = ""
