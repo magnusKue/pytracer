@@ -12,6 +12,7 @@ class Camera:
         self.imageHeight = max(1, int(self.imageWidth / self.imageAR))
 
         self.samples = 1
+        self.maxBounces = 3
 
         self.focalLength = 1.0
         self.viewportH = 2.0
@@ -49,14 +50,17 @@ class Camera:
                 for x in range(self.samples):
                     ray = Ray(self.cameraCenter, rayDirection) # not a unit vector
                     ray.origin += (random.randint(-50, 50) / 100) * self.pxDelta_u +  (random.randint(-50, 50) / 100) * self.pxDelta_v
-                    color += self.rayColor(ray, scene)
+                    color += self.rayColor(ray, scene, self.maxBounces)
 
                 renderTarget += str(color/self.samples)
         
         return int(time.time()-startTime), renderTarget
 
-    def rayColor(self, ray:Ray, scene:Scene) -> col:
+    def rayColor(self, ray:Ray, scene:Scene, bouncesleft:int) -> col:
         tmin, tmax = 0, 99
+
+        if bouncesleft <= 0:
+            return col(0,0,0)
 
         # grab all collision information (must not contain a collision)
         hitInfos = [object.checkCollision(ray, tmin, tmax) for object in scene.objects]
@@ -82,13 +86,13 @@ class Camera:
         # if collision happened:
         firstCollision = sorted(collisions, key=lambda x: x.t)[0] # sort by t and save first entry       
         t = firstCollision.t
-        collisionPoint = firstCollision.hitPoint
+        hitPoint = firstCollision.hitPoint
         normal = firstCollision.hitNormal
         color = firstCollision.hitMaterial.color
 
         # bounce
-        #bounceRay = 
-        #bounceColor = self.rayColor(ray, scene:Scene)
+        bounceRay = Ray(hitPoint, vec3.randomOnHemiSphere(normal))
+        color = self.rayColor(bounceRay, scene, bouncesleft-1) * color
 
         #color = 0.5*col(normal.x+1, normal.y+1, normal.z+1) # normal shading
         return color

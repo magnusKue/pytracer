@@ -65,7 +65,7 @@ class vec3:
     @staticmethod
     def random(minV=None, maxV=None):
         if minV and maxV:
-            return vec3(random.uniform(min, max), random.uniform(min, max), random.uniform(min, max))
+            return vec3(random.uniform(minV, maxV), random.uniform(minV, maxV), random.uniform(minV, maxV))
         else:
             return vec3(random.uniform(), random.uniform(), random.uniform())
     
@@ -103,3 +103,5 @@ def cross(vec1, vec2) -> vec3:
 class point3(vec3):
     def __init__(self, x, y, z) -> None:
         super().__init__(x, y, z)
+
+print(vec3.randomOnHemiSphere(vec3(0,1,0)))

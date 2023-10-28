@@ -59,7 +59,7 @@ class Floor(object):
         self.yPos = yPos.y
         self.color1 = color1
         self.color2 = color2
-        self.material = Material(col(255,20,147)) # this should never be seen
+        self.material = Material(col(1,.07,.46)) # this should never be seen
 
     def checkCollision(self, r:Ray, tmin, tmax):
         if r.direction.y >= 0:

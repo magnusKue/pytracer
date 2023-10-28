@@ -11,17 +11,17 @@ scene = Scene()
 scene.addObject(Sphere(
             pos=point3(-2,0,-4),
             radius=.6,
-            material= Material(col(0,0,255))
+            material= Material(col(0,0,1))
         )
     )
 
 scene.addObject(Sphere(
             pos=point3(0,0,-4),
             radius=2.5,
-            material= Material(col(255,0,0))
+            material= Material(col(1,0,0))
         )
     )
-scene.addObject(Floor(point3(0,-1,0), col(0,0,0), col(255,255,255)))
+scene.addObject(Floor(point3(0,-1,0), col(1,0,0), col(1,1,1)))
 
 maxColorVal = 255
 rendertarget = ""
