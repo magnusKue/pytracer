@@ -55,3 +55,8 @@ class col:
     
     def __str__(self) -> str:
         return f"{255.999*self.r} {255.999*self.g} {255.999*self.b}\n"
+
+
+class Material:
+    def __init__(self, color:col):
+        self.color = color

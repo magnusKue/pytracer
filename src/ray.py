@@ -14,4 +14,3 @@ class Ray:
     def step(self, t):
         return self.origin + (t * self.direction)
     
-

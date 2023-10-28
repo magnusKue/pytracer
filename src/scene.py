@@ -1,6 +1,7 @@
 from ray import *
 from vec import *
 from color import *
+from collisions import *
 from math import sqrt, floor
 
 class Scene:
@@ -18,11 +19,11 @@ class Object:
         pass
 
 class Sphere(Object):
-    def __init__(self, pos:point3, radius, color:col):
+    def __init__(self, pos:point3, radius, material:Material):
         super().__init__()
         self.position = pos
         self.radius = radius
-        self.color = color
+        self.material = material
     
     def checkCollision(self, r, tmin, tmax):
         super().checkCollision(r, tmin, tmax)
@@ -34,7 +35,7 @@ class Sphere(Object):
         discriminant  = halfb * halfb - a * c
         if discriminant < 0:
             # no collision
-            return False, None, None, None, None
+            return HitInfo.zero()
         
         sqrtD = sqrt(discriminant)
         root = (-halfb - sqrtD) / a
@@ -43,14 +44,14 @@ class Sphere(Object):
             root = (-halfb + sqrtD) / a
             if root <= tmin or tmax <= root:
                 # no collision
-                return False, None, None, None, None
+                return HitInfo.zero()
             
         t = root
         collisionPoint = r.step(t)
 
         normal = (collisionPoint - self.position) / self.radius # normalized outward-pointing normal
 
-        return True, t, collisionPoint, normal, self.color
+        return HitInfo(True, t, collisionPoint, normal, self.material)
     
 class Floor(object):
     def __init__(self, yPos, color1, color2):
@@ -58,11 +59,11 @@ class Floor(object):
         self.yPos = yPos.y
         self.color1 = color1
         self.color2 = color2
+        self.material = Material(col(255,20,147)) # this should never be seen
 
     def checkCollision(self, r:Ray, tmin, tmax):
         if r.direction.y >= 0:
-            # no intersection
-            return False, None, None, None, None
+            return HitInfo.zero()
         
         t = float(self.yPos / float(r.direction.y))
 
@@ -80,7 +81,7 @@ class Floor(object):
         fac += .5
         fac *= 255
 
-        color = col(fac,fac,fac)
+        self.material.color = col(fac,fac,fac)
 
-        return True, t, point, normal, color
+        return HitInfo(True, t, point, normal, self.material)
         

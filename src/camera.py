@@ -1,4 +1,4 @@
-import sys, time
+import sys, time, random
 from vec import *
 from ray import *
 from color import *
@@ -11,6 +11,7 @@ class Camera:
         self.imageWidth = 400
         self.imageHeight = max(1, int(self.imageWidth / self.imageAR))
 
+        self.samples = 1
 
         self.focalLength = 1.0
         self.viewportH = 2.0
@@ -29,7 +30,8 @@ class Camera:
 
         # location of first pixel
         self.originPixel = self.viewportUpLeft + 0.5 * (self.pxDelta_u + self.pxDelta_v)
-    
+
+
     def render(self, renderTarget, scene, progressIndication=True):
 
         startTime = time.time()
@@ -42,12 +44,14 @@ class Camera:
             for x in range(self.imageWidth):
                 pxCenter = self.originPixel + (x * self.pxDelta_u) + (y * self.pxDelta_v) 
                 rayDirection = pxCenter - self.cameraCenter
-
-                ray = Ray(self.cameraCenter, rayDirection) # not a unit vector
                 
-                #color = col(x/(self.imageWidth-1), y/(self.imageHeight-1), 0) # uv map coloring
-                color = self.rayColor(ray, scene)
-                renderTarget += str(color)
+                color = col(0,0,0)
+                for x in range(self.samples):
+                    ray = Ray(self.cameraCenter, rayDirection) # not a unit vector
+                    ray.origin += (random.randint(-50, 50) / 100) * self.pxDelta_u +  (random.randint(-50, 50) / 100) * self.pxDelta_v
+                    color += self.rayColor(ray, scene)
+
+                renderTarget += str(color/self.samples)
         
         return int(time.time()-startTime), renderTarget
 
@@ -55,19 +59,19 @@ class Camera:
         tmin, tmax = 0, 99
 
         # grab all collision information (must not contain a collision)
-        collisions = [object.checkCollision(ray, tmin, tmax) for object in scene.objects]
+        hitInfos = [object.checkCollision(ray, tmin, tmax) for object in scene.objects]
         
         # only keep collition
-        trueCollision = []
-        for coll in collisions:
-            if coll[0]:
-                trueCollision.append(coll)
+        collisions = []
+        for coll in hitInfos:
+            if coll.didHit:
+                collisions.append(coll)
         
         # did a collision happen?
-        collision = len(trueCollision) > 0
+        didCollide = len(collisions) > 0
 
         #sort the list by distance of collision and get first object
-        if not collision:
+        if not didCollide:
             # render sky
 
             unitDirection = normalize(ray.direction)
@@ -76,12 +80,15 @@ class Camera:
             return resColor
 
         # if collision happened:
-        firstCollision = sorted(trueCollision, key=lambda x: x[1])[0]        
-        
-        t = firstCollision[1]
-        collisionPoint = firstCollision[2]
-        normal = firstCollision[3]
-        color = firstCollision[4]
+        firstCollision = sorted(collisions, key=lambda x: x.t)[0] # sort by t and save first entry       
+        t = firstCollision.t
+        collisionPoint = firstCollision.hitPoint
+        normal = firstCollision.hitNormal
+        color = firstCollision.hitMaterial.color
+
+        # bounce
+        #bounceRay = 
+        #bounceColor = self.rayColor(ray, scene:Scene)
 
         #color = 0.5*col(normal.x+1, normal.y+1, normal.z+1) # normal shading
         return color

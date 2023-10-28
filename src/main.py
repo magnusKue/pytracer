@@ -11,14 +11,14 @@ scene = Scene()
 scene.addObject(Sphere(
             pos=point3(-2,0,-4),
             radius=.6,
-            color = col(0,0,255)
+            material= Material(col(0,0,255))
         )
     )
 
 scene.addObject(Sphere(
             pos=point3(0,0,-4),
             radius=2.5,
-            color = col(255,0,0)
+            material= Material(col(255,0,0))
         )
     )
 scene.addObject(Floor(point3(0,-1,0), col(0,0,0), col(255,255,255)))

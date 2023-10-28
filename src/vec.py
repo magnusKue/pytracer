@@ -1,4 +1,4 @@
-import math
+import math, random
 
 class vec3:
     def __init__(self, x, y, z) -> None:
@@ -61,6 +61,31 @@ class vec3:
     
     def length(self) -> float:
         return math.sqrt(self.lengthSquared())
+    
+    @staticmethod
+    def random(minV=None, maxV=None):
+        if minV and maxV:
+            return vec3(random.uniform(min, max), random.uniform(min, max), random.uniform(min, max))
+        else:
+            return vec3(random.uniform(), random.uniform(), random.uniform())
+    
+    # @staticmethod
+    # def randomInUnitSphere():
+    #     while True:
+    #         v = vec3.random(-1, 1)
+    #         if v.lengthSquared() < 1:
+    #             return v
+        
+    @staticmethod
+    def randomOnHemiSphere(normal):
+        while True:
+            v = vec3.random(-1, 1)
+            if v.lengthSquared() < 1:
+                break
+        vec = v
+        if dot(normal, vec) < 0: # more than 90° apart -> invert
+            vec *= -1
+        return vec
 
 def normalize(vec:vec3):
     return vec/vec.length()
