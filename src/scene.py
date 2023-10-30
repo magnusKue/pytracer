@@ -78,10 +78,10 @@ class Floor(object):
         if point.z % scale > 0.5*scale:
             fac *= -1
 
-        fac += .5
-        fac *= 255
-
-        self.material.color = col(fac,fac,fac)
-
+        if fac == -0.5:
+            self.material.color = self.color1
+        else:
+            self.material.color = self.color2
+            
         return HitInfo(True, t, point, normal, self.material, r)
         

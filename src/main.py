@@ -9,23 +9,31 @@ from camera import *
 camera = Camera()
 scene = Scene()
 scene.addObject(Sphere(
-            pos=point3(-1.5,0,-4),
-            radius=2,
-            material= Lambertian(col(1,0,0))
+            pos=point3(-2,0,-4),
+            radius=1,
+            material= Metal(col(0.8, 0.8, 0.8), 0)
         )
     )
 
 scene.addObject(Sphere(
-            pos=point3(1.5,0,-4),
+            pos=point3(0,0,-4),
             radius=1,
-            material= Lambertian(col(0,0,1))
+            material= Lambertian(col(0.7, 0.3, 0.3))
         )
     )
+
+scene.addObject(Sphere(
+            pos=point3(2,0,-4),
+            radius=1,
+            material= Metal(col(0.8, 0.6, 0.2), 1)
+        )
+    )
+
 scene.addObject(Floor(
         point3(0,-1,0), 
-        col(1,0,0), 
-        col(1,1,1),
-        material = Metal(col(1,.07,.46))
+        col(0.8,0.1,0.1), 
+        col(.7,.8,.8),
+        material = Lambertian(col(0.8, 0.8, 0.0))
     )
 )
 

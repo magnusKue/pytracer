@@ -8,10 +8,11 @@ from collisions import *
 class Camera:
     def __init__(self) -> None:
         self.imageAR = 16/9 # aspect ratio
-        self.imageWidth = 400
+        self.imageWidth = 500
         self.imageHeight = max(1, int(self.imageWidth / self.imageAR))
+        self.allPixels = self.imageHeight * self.imageWidth
 
-        self.samples = 4
+        self.samples = 50
         self.maxBounces = 10
 
         self.focalLength = 1.0
@@ -38,11 +39,11 @@ class Camera:
         startTime = time.time()
 
         for y in range(self.imageHeight):
-
-            sys.stdout.write("\r{0}".format("scanlines remaining: "+ str(self.imageHeight-y-1) + " "))
-            sys.stdout.flush()
-
             for x in range(self.imageWidth):
+                pxLeft = self.allPixels - (max(0, y-1) * self.imageWidth) + self.imageWidth - x
+                sys.stdout.write("\r{0}".format("pixels remaining: "+ str(pxLeft) + "   "))
+                sys.stdout.flush()
+
                 pxCenter = self.originPixel + (x * self.pxDelta_u) + (y * self.pxDelta_v) 
                 rayDirection = pxCenter - self.cameraCenter
                 
@@ -53,6 +54,7 @@ class Camera:
                     color += self.rayColor(ray, scene, self.maxBounces)
 
                 renderTarget += str((color/self.samples).colToGammaSpace())
+
         
         return int(time.time()-startTime), renderTarget
 
@@ -92,8 +94,10 @@ class Camera:
         incomingRay = firstCollision.ray
 
         # bounce
-        bounceRay = material.scatter(incomingRay, normal, hitPoint)
-        color = 0.5 * self.rayColor(bounceRay, scene, bouncesleft-1)
+        color = col(0,0,0)
+        bounceRay, colt, ignore = material.scatter(incomingRay, normal, hitPoint)
+        if not ignore:
+            color = material.color * self.rayColor(bounceRay, scene, bouncesleft-1)
 
         #color = 0.5*col(normal.x+1, normal.y+1, normal.z+1) # normal shading
         return color
