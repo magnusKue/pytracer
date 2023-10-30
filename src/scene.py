@@ -5,7 +5,10 @@ from hitinfo import *
 from material import *
 from math import sqrt, floor
 
+## THIS FILE DEFINES OBJECTS BY GIVING THEM A RAY COLLISION FUNCTION THAT RETURNS A HITINFO
+
 class Scene:
+    ## THIS CLASS HOLDS OUR WORLD AND ALL OBJECT INSTANCES
     def __init__(self):
         self.objects = []
 

@@ -33,8 +33,19 @@ class PygameWIN(Rendertarget):
         super().__init__()
         pygame.init()
         self.maxColorVal = maxColorValue
-        self.root = pygame.display.set_mode(resolution)
+
+        self.winWidth = 1600
+
+        ar = resolution[1]/resolution[0]
+        self.winHeight = self.winWidth * ar
+        self.root = pygame.display.set_mode([self.winWidth, self.winHeight])
         self.root.fill((87, 80, 89))
+
+        self.renderTexture = pygame.Surface(resolution)
+        self.renderTexture.fill((87, 80, 89))
+
+        
+        pygame.display.set_caption("Pytracer")
 
         self.subtarget = PPM(resolution, maxColorValue, path)
 
@@ -45,8 +56,9 @@ class PygameWIN(Rendertarget):
                 pygame.quit()
                 sys.exit()
 
-        self.root.set_at((x, y), (color.r * self.maxColorVal, color.g * self.maxColorVal, color.b * self.maxColorVal))
-        
+        self.renderTexture.set_at((x, y), (color.r * self.maxColorVal, color.g * self.maxColorVal, color.b * self.maxColorVal))
+
+        self.root.blit(pygame.transform.scale(self.renderTexture, [self.winWidth, self.winHeight]), (0,0))
         pygame.display.flip()
 
         self.subtarget.push(x, y, color)
@@ -54,7 +66,7 @@ class PygameWIN(Rendertarget):
     def finish(self):
         super().finish()
         self.subtarget.finish()
-        
+
         running = True
         while running:
             for event in pygame.event.get():

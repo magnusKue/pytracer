@@ -2,6 +2,7 @@ from vec import *
 from ray import *
 from math import sqrt
 
+## A BASIC STRUCTURE TO HOLD INFORMATION ABOUT A COLLISION
 
 class HitInfo:
     def __init__(self, didHit, t, hitPoint, hitNormal, hitMaterial, ray=None):

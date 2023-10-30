@@ -1,4 +1,4 @@
-import os, sys, time, datetime
+import os, sys, time, datetime, random
 
 from vec import *
 from color import *
@@ -8,29 +8,26 @@ from material import *
 from camera import *
 import rendertarget
 
-camera = Camera()
+samples = 10
+imgWidth = 400
+maxBounces = 10
+
+camera = Camera(samples=samples, imgWidth=imgWidth, maxBounces=maxBounces)
 scene = Scene()
-scene.addObject(Sphere(
-            pos=point3(-2,0,-4),
-            radius=1,
-            material= Metal(col(0.8, 0.8, 0.8), 0)
-        )
-    )
 
-scene.addObject(Sphere(
-            pos=point3(0,0,-4),
-            radius=1,
-            material= Lambertian(col(0.7, 0.3, 0.3))
+# place spheres at random position with randomized size and material
+random.seed(124413) 
+for x in range(100):
+    color = col(random.uniform(0,1),random.uniform(0,1),random.uniform(0,1))
+    mat = random.choice([Metal(color, random.uniform(0,1)), Lambertian(color)])
+    diameter = random.uniform(.1, 2)
+    scene.addObject(Sphere(
+                pos=point3(random.randint(-20, 20),diameter*.5,-random.randint(1, 50)),
+                radius=diameter*2,
+                material= mat
+            )
         )
-    )
-
-scene.addObject(Sphere(
-            pos=point3(2,0,-4),
-            radius=1,
-            material= Metal(col(0.8, 0.6, 0.2), 1)
-        )
-    )
-
+ 
 scene.addObject(Floor(
         point3(0,-1,0), 
         col(0.8,0.1,0.1), 
@@ -39,6 +36,7 @@ scene.addObject(Floor(
     )
 )
 
+# set the rendertartet which the color data will be sent to after rendering
 rt = rendertarget.PygameWIN(
     resolution=[camera.imageWidth, camera.imageHeight],
     maxColorValue=255,
@@ -46,6 +44,8 @@ rt = rendertarget.PygameWIN(
 )
 
 os.system('cls')
+
+# render the scene
 deltaT = camera.render(renderTarget=rt, scene=scene)        
 
 os.system('cls')
