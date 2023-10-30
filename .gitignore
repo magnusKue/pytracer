@@ -6,7 +6,9 @@ __pycache__/
 # C extensions
 *.so
 
+# other
 *.ppm
+*.code-workspace
 
 # Distribution / packaging
 .Python

@@ -11,8 +11,8 @@ class Camera:
         self.imageWidth = 400
         self.imageHeight = max(1, int(self.imageWidth / self.imageAR))
 
-        self.samples = 1
-        self.maxBounces = 3
+        self.samples = 50
+        self.maxBounces = 10
 
         self.focalLength = 1.0
         self.viewportH = 2.0
@@ -57,7 +57,7 @@ class Camera:
         return int(time.time()-startTime), renderTarget
 
     def rayColor(self, ray:Ray, scene:Scene, bouncesleft:int) -> col:
-        tmin, tmax = 0, 99
+        tmin, tmax = 0.001, 99 # tmin over 0 to avoid self-intersection due to floating point calculation errors
 
         if bouncesleft <= 0:
             return col(0,0,0)
@@ -92,7 +92,7 @@ class Camera:
 
         # bounce
         bounceRay = Ray(hitPoint, vec3.randomOnHemiSphere(normal))
-        color = self.rayColor(bounceRay, scene, bouncesleft-1) * color
+        color = 0.5 * self.rayColor(bounceRay, scene, bouncesleft-1)
 
         #color = 0.5*col(normal.x+1, normal.y+1, normal.z+1) # normal shading
         return color

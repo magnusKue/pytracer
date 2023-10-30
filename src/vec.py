@@ -69,20 +69,16 @@ class vec3:
         else:
             return vec3(random.uniform(), random.uniform(), random.uniform())
     
-    # @staticmethod
-    # def randomInUnitSphere():
-    #     while True:
-    #         v = vec3.random(-1, 1)
-    #         if v.lengthSquared() < 1:
-    #             return v
-        
     @staticmethod
-    def randomOnHemiSphere(normal):
+    def randomInUnitSphere():
         while True:
             v = vec3.random(-1, 1)
             if v.lengthSquared() < 1:
-                break
-        vec = v
+                return v
+        
+    @staticmethod
+    def randomOnHemiSphere(normal):
+        vec = vec3.randomInUnitSphere()
         if dot(normal, vec) < 0: # more than 90° apart -> invert
             vec *= -1
         return vec

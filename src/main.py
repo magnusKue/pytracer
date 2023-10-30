@@ -9,15 +9,15 @@ from camera import *
 camera = Camera()
 scene = Scene()
 scene.addObject(Sphere(
-            pos=point3(-2,0,-4),
-            radius=.6,
+            pos=point3(-1.5,0,-4),
+            radius=2,
             material= Material(col(0,0,1))
         )
     )
 
 scene.addObject(Sphere(
-            pos=point3(0,0,-4),
-            radius=2.5,
+            pos=point3(1.5,0,-4),
+            radius=1,
             material= Material(col(1,0,0))
         )
     )
