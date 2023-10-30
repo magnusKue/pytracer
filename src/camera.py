@@ -11,7 +11,7 @@ class Camera:
         self.imageWidth = 400
         self.imageHeight = max(1, int(self.imageWidth / self.imageAR))
 
-        self.samples = 50
+        self.samples = 4
         self.maxBounces = 10
 
         self.focalLength = 1.0
@@ -52,7 +52,7 @@ class Camera:
                     ray.origin += (random.randint(-50, 50) / 100) * self.pxDelta_u +  (random.randint(-50, 50) / 100) * self.pxDelta_v
                     color += self.rayColor(ray, scene, self.maxBounces)
 
-                renderTarget += str(color/self.samples)
+                renderTarget += str((color/self.samples).colToGammaSpace())
         
         return int(time.time()-startTime), renderTarget
 
@@ -91,7 +91,7 @@ class Camera:
         color = firstCollision.hitMaterial.color
 
         # bounce
-        bounceRay = Ray(hitPoint, vec3.randomOnHemiSphere(normal))
+        bounceRay = Ray(hitPoint, vec3.randomInUnitSphere() + normal)
         color = 0.5 * self.rayColor(bounceRay, scene, bouncesleft-1)
 
         #color = 0.5*col(normal.x+1, normal.y+1, normal.z+1) # normal shading

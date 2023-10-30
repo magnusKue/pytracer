@@ -55,6 +55,16 @@ class col:
     
     def __str__(self) -> str:
         return f"{255.999*self.r} {255.999*self.g} {255.999*self.b}\n"
+    
+    def componentToGamma(self, comp):
+        return math.sqrt(comp)
+
+    def colToGammaSpace(self):
+        return col(
+            self.componentToGamma(self.r),
+            self.componentToGamma(self.g),
+            self.componentToGamma(self.b)
+        )
 
 
 class Material:
