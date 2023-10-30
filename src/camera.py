@@ -88,10 +88,11 @@ class Camera:
         t = firstCollision.t
         hitPoint = firstCollision.hitPoint
         normal = firstCollision.hitNormal
-        color = firstCollision.hitMaterial.color
+        material = firstCollision.hitMaterial
+        incomingRay = firstCollision.ray
 
         # bounce
-        bounceRay = Ray(hitPoint, vec3.randomInUnitSphere() + normal)
+        bounceRay = material.scatter(incomingRay, normal, hitPoint)
         color = 0.5 * self.rayColor(bounceRay, scene, bouncesleft-1)
 
         #color = 0.5*col(normal.x+1, normal.y+1, normal.z+1) # normal shading

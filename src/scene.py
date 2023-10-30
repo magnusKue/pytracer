@@ -51,15 +51,15 @@ class Sphere(Object):
 
         normal = (collisionPoint - self.position) / self.radius # normalized outward-pointing normal
 
-        return HitInfo(True, t, collisionPoint, normal, self.material)
+        return HitInfo(True, t, collisionPoint, normal, self.material, r)
     
 class Floor(object):
-    def __init__(self, yPos, color1, color2):
+    def __init__(self, yPos, color1, color2, material):
         super().__init__()
         self.yPos = yPos.y
         self.color1 = color1
         self.color2 = color2
-        self.material = Material(col(1,.07,.46)) # this should never be seen
+        self.material = material # this should never be seen
 
     def checkCollision(self, r:Ray, tmin, tmax):
         if r.direction.y >= 0:
@@ -83,5 +83,5 @@ class Floor(object):
 
         self.material.color = col(fac,fac,fac)
 
-        return HitInfo(True, t, point, normal, self.material)
+        return HitInfo(True, t, point, normal, self.material, r)
         

@@ -62,6 +62,9 @@ class vec3:
     def length(self) -> float:
         return math.sqrt(self.lengthSquared())
     
+    def isNearZero(self):
+        return self.x < 0.00001 and self.y < 0.00001 and self.z < 0.00001
+
     @staticmethod
     def random(minV=None, maxV=None):
         if minV and maxV:
@@ -83,11 +86,15 @@ class vec3:
             vec *= -1
         return vec
 
+
 def normalize(vec:vec3):
     return vec/vec.length()
 
 def dot(vec1, vec2) -> float:
     return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z
+
+def reflect(vector, normal):
+    return vector - 2*dot(vector,normal)*normal
 
 def cross(vec1, vec2) -> vec3:
     return vec3(

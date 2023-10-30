@@ -1,4 +1,5 @@
 import math
+from ray import *
 
 class col:
     def __init__(self, r, g, b) -> None:
@@ -70,3 +71,26 @@ class col:
 class Material:
     def __init__(self, color:col):
         self.color = color
+
+    def scatter(self, ray:Ray, normal, hitPoint):
+        pass
+
+class Lambertian(Material):
+    def __init__(self, color: col):
+        super().__init__(color)
+
+    def scatter(self, ray: Ray, normal, hitPoint):
+        scatteredRay = Ray(hitPoint, vec3.randomInUnitSphere() + normal)
+        if scatteredRay.direction.isNearZero():
+            scatteredRay.direction = normal
+        return scatteredRay
+    
+class Metal(Material):
+    def __init__(self, color: col):
+        super().__init__(color)
+
+    def scatter(self, ray: Ray, normal, hitPoint):
+        vecIn = ray.direction
+        reflected = reflect(normalize(vecIn), normal)
+        scatteredRay = Ray(hitPoint, reflected)
+        return scatteredRay

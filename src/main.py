@@ -1,4 +1,4 @@
-import os, sys, time
+import os, sys, time, datetime
 
 from vec import *
 from color import *
@@ -11,17 +11,23 @@ scene = Scene()
 scene.addObject(Sphere(
             pos=point3(-1.5,0,-4),
             radius=2,
-            material= Material(col(0,0,1))
+            material= Lambertian(col(1,0,0))
         )
     )
 
 scene.addObject(Sphere(
             pos=point3(1.5,0,-4),
             radius=1,
-            material= Material(col(1,0,0))
+            material= Lambertian(col(0,0,1))
         )
     )
-scene.addObject(Floor(point3(0,-1,0), col(1,0,0), col(1,1,1)))
+scene.addObject(Floor(
+        point3(0,-1,0), 
+        col(1,0,0), 
+        col(1,1,1),
+        material = Metal(col(1,.07,.46))
+    )
+)
 
 maxColorVal = 255
 rendertarget = ""
@@ -34,4 +40,4 @@ with open("C:\\Users\\Magnus\\Magnus\\Code\\py\\raytracer\\v01\\pytracer\\output
     fp.write(rendertarget)
 
 os.system('cls')
-print(f"done in {deltaT}s")
+print(f"rendered {camera.imageWidth} x {camera.imageHeight} pixels in {str(datetime.timedelta(seconds=deltaT))}s")
