@@ -106,5 +106,3 @@ def cross(vec1, vec2) -> vec3:
 class point3(vec3):
     def __init__(self, x, y, z) -> None:
         super().__init__(x, y, z)
-
-print(vec3.randomOnHemiSphere(vec3(0,1,0)))

@@ -1,7 +1,8 @@
 from ray import *
 from vec import *
 from color import *
-from collisions import *
+from hitinfo import *
+from material import *
 from math import sqrt, floor
 
 class Scene:

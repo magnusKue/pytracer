@@ -3,8 +3,10 @@ import os, sys, time, datetime
 from vec import *
 from color import *
 from ray import *
-from collisions import *
+from hitinfo import *
+from material import *
 from camera import *
+import rendertarget
 
 camera = Camera()
 scene = Scene()
@@ -37,15 +39,16 @@ scene.addObject(Floor(
     )
 )
 
-maxColorVal = 255
-rendertarget = ""
-rendertarget += f"P3\n{camera.imageWidth} {camera.imageHeight} \n{maxColorVal}\n" # file header
+rt = rendertarget.PygameWIN(
+    resolution=[camera.imageWidth, camera.imageHeight],
+    maxColorValue=255,
+    path="C:\\Users\\Magnus\\Magnus\\Code\\py\\raytracer\\v01\\pytracer\\output\\output2.ppm"
+)
 
 os.system('cls')
-deltaT, rendertarget = camera.render(renderTarget=rendertarget, scene=scene)        
-
-with open("C:\\Users\\Magnus\\Magnus\\Code\\py\\raytracer\\v01\\pytracer\\output\\output2.ppm", "w") as fp:
-    fp.write(rendertarget)
+deltaT = camera.render(renderTarget=rt, scene=scene)        
 
 os.system('cls')
 print(f"rendered {camera.imageWidth} x {camera.imageHeight} pixels in {str(datetime.timedelta(seconds=deltaT))}s")
+
+rt.finish()

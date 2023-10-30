@@ -3,12 +3,12 @@ from vec import *
 from ray import *
 from color import *
 from scene import *
-from collisions import *
+from hitinfo import *
 
 class Camera:
     def __init__(self) -> None:
         self.imageAR = 16/9 # aspect ratio
-        self.imageWidth = 500
+        self.imageWidth = 800
         self.imageHeight = max(1, int(self.imageWidth / self.imageAR))
         self.allPixels = self.imageHeight * self.imageWidth
 
@@ -48,15 +48,14 @@ class Camera:
                 rayDirection = pxCenter - self.cameraCenter
                 
                 color = col(0,0,0)
-                for x in range(self.samples):
+                for i in range(self.samples):
                     ray = Ray(self.cameraCenter, rayDirection) # not a unit vector
                     ray.origin += (random.randint(-50, 50) / 100) * self.pxDelta_u +  (random.randint(-50, 50) / 100) * self.pxDelta_v
                     color += self.rayColor(ray, scene, self.maxBounces)
 
-                renderTarget += str((color/self.samples).colToGammaSpace())
+                renderTarget.push(x, y, ((color/self.samples).colToGammaSpace()))
+        return int(time.time()-startTime)
 
-        
-        return int(time.time()-startTime), renderTarget
 
     def rayColor(self, ray:Ray, scene:Scene, bouncesleft:int) -> col:
         tmin, tmax = 0.001, 99 # tmin over 0 to avoid self-intersection due to floating point calculation errors
