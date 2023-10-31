@@ -110,6 +110,7 @@ class Camera:
         firstCollision = sorted(collisions, key=lambda x: x.t)[0] # sort by t and save first entry       
         t = firstCollision.t
         hitPoint = firstCollision.hitPoint
+  
         normal = firstCollision.hitNormal
         material = firstCollision.hitMaterial
         incomingRay = firstCollision.ray

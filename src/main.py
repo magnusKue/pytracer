@@ -8,33 +8,31 @@ from material import *
 from camera import *
 import rendertarget
 
-samples = 10
-imgWidth = 400
-maxBounces = 10
+samples = 50
+imgWidth = 500
+maxBounces = 20
 
 camera = Camera(samples=samples, imgWidth=imgWidth, maxBounces=maxBounces)
 scene = Scene()
 
 # place spheres at random position with randomized size and material
-random.seed(124413) 
-for x in range(100):
-    color = col(random.uniform(0,1),random.uniform(0,1),random.uniform(0,1))
-    mat = random.choice([Metal(color, random.uniform(0,1)), Lambertian(color)])
-    diameter = random.uniform(.1, 2)
+
+for x in range(5):
     scene.addObject(Sphere(
-                pos=point3(random.randint(-20, 20),diameter*.5,-random.randint(1, 50)),
-                radius=diameter*2,
-                material= mat
+                pos=point3(-4 + x*2, 1, -4),
+                radius=1,
+                material= Metal(col(1, 1, 1), 1-(.25*x))
             )
         )
  
 scene.addObject(Floor(
-        point3(0,-1,0), 
-        col(0.8,0.1,0.1), 
-        col(.7,.8,.8),
+        yPos = point3(0, -1, 0), 
+        color1 = col(0.8 ,0.1, 0.1), 
+        color2 = col(0.7, 0.8, 0.8),
         material = Lambertian(col(0.8, 0.8, 0.0))
     )
 )
+
 
 # set the rendertartet which the color data will be sent to after rendering
 rt = rendertarget.PygameWIN(

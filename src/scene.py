@@ -58,18 +58,21 @@ class Sphere(Object):
         return HitInfo(True, t, collisionPoint, normal, self.material, r)
     
 class Floor(object):
-    def __init__(self, yPos, color1, color2, material):
+    def __init__(self, yPos:vec3, color1:col, color2:col, material:Material):
         super().__init__()
         self.yPos = yPos.y
         self.color1 = color1
         self.color2 = color2
         self.material = material # this should never be seen
 
-    def checkCollision(self, r:Ray, tmin, tmax):
+    def checkCollision(self, r:Ray, tmin:int, tmax:int):
         if r.direction.y >= 0:
             return HitInfo.zero()
         
         t = float(self.yPos / float(r.direction.y))
+
+        if t > tmax or t < tmin:
+            return HitInfo.zero()
 
         point = r.origin + (t*r.direction)
         normal = vec3(0,1,0)
