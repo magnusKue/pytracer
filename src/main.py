@@ -8,28 +8,52 @@ from material import *
 from camera import *
 import rendertarget
 
-samples = 50
-imgWidth = 500
-maxBounces = 20
+samples = 5
+imgWidth = 50
+maxBounces = 10
 
 camera = Camera(samples=samples, imgWidth=imgWidth, maxBounces=maxBounces)
 scene = Scene()
 
 # place spheres at random position with randomized size and material
+random.seed(24453)
 
-for x in range(5):
+scene.addObject(
+    Sphere(
+        pos=point3(8, 2, -10),
+        radius=4,
+        material=Metal(col(.8,.8,.8), 0)
+    )
+)
+scene.addObject(
+    Sphere(
+        pos=point3(5, 2, -16),
+        radius=4,
+        material=Metal(col(.8,.8,.8), .5)
+    )
+)
+scene.addObject(
+    Sphere(
+        pos=point3(1, 2, -24),
+        radius=4,
+        material=Metal(col(.8,.8,.8), 1)
+    )
+)
+
+for x in range(100):
+    radius = random.uniform(.1, .5)
     scene.addObject(Sphere(
-                pos=point3(-4 + x*2, 1, -4),
-                radius=1,
-                material= Metal(col(1, 1, 1), 1-(.25*x))
+                pos=point3(random.randint(-15, 15), -1+radius, -random.randint(-2, 40)),
+                radius=radius,
+                material= Lambertian(col(random.uniform(0,1), random.uniform(0,1), random.uniform(0,1)))
             )
         )
- 
+
 scene.addObject(Floor(
         yPos = point3(0, -1, 0), 
-        color1 = col(0.8 ,0.1, 0.1), 
+        color1 = col(0.1 ,0.1, 0.1), 
         color2 = col(0.7, 0.8, 0.8),
-        material = Lambertian(col(0.8, 0.8, 0.0))
+        material = Metal(col(0.8, 0.8, 0.0), 1)
     )
 )
 
