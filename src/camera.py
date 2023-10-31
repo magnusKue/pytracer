@@ -1,4 +1,4 @@
-import sys, time, random
+import sys, time, random, datetime
 from vec import *
 from ray import *
 from color import *
@@ -40,19 +40,11 @@ class Camera:
 
     def render(self, renderTarget, scene, progressIndication=True):
         ## THE ACTUAL FUNCTION THATS RENDERING THE SCENE AND PASSING THE RESULT TO THE RENDERTARGET
-        
-        # save starttime so we can calculate delta later on
-        startTime = time.time()
 
+        self.startTime = time.time()
         # loop throgh every pixel
         for y in range(self.imageHeight):
             for x in range(self.imageWidth):
-
-                # print progress information
-                pxLeft = self.allPixels - (y * self.imageWidth) + self.imageWidth - x
-                sys.stdout.write("\r{0}".format("pixels remaining: "+ str(pxLeft) + "   "))
-                sys.stdout.flush()
-
                 # calculate the first ray thats shooting out of the camera
                 pxCenter = self.originPixel + (x * self.pxDelta_u) + (y * self.pxDelta_v) 
                 rayDirection = pxCenter - self.cameraCenter
@@ -68,10 +60,7 @@ class Camera:
                     color += self.rayColor(sampleRay, scene, self.maxBounces)
 
                 # average out the color from all samples and push it to the rendertartet
-                renderTarget.push(x, y, ((color/self.samples).colToGammaSpace()))
-
-        # retrurn rendering time
-        return int(time.time()-startTime)
+                renderTarget.push(x, y, (color/self.samples).colToGammaSpace())
 
 
     def rayColor(self, ray:Ray, scene:Scene, bouncesleft:int) -> col:

@@ -9,6 +9,7 @@ __pycache__/
 # other
 *.ppm
 *.code-workspace
+*.vscode/
 
 # Distribution / packaging
 .Python

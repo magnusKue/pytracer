@@ -8,9 +8,9 @@ from material import *
 from camera import *
 import rendertarget
 
-samples = 5
-imgWidth = 50
-maxBounces = 10
+samples = 125
+imgWidth = 300
+maxBounces = 60
 
 camera = Camera(samples=samples, imgWidth=imgWidth, maxBounces=maxBounces)
 scene = Scene()
@@ -65,12 +65,7 @@ rt = rendertarget.PygameWIN(
     path="C:\\Users\\Magnus\\Magnus\\Code\\py\\raytracer\\v01\\pytracer\\output\\output2.ppm"
 )
 
-os.system('cls')
-
 # render the scene
 deltaT = camera.render(renderTarget=rt, scene=scene)        
 
-os.system('cls')
-print(f"rendered {camera.imageWidth} x {camera.imageHeight} pixels in {str(datetime.timedelta(seconds=deltaT))}s")
-
-rt.finish()
+rt.finish(deltaT = deltaT)
