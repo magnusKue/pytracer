@@ -27,9 +27,10 @@ class PPM(Rendertarget):
         self.est   = 0
 
 
-    def push(self, x, y, col):
-        super().push(col, x, y)
-        self.file += str(col)
+    def push(self, x, y, color):
+        color.clamp()
+        super().push(color, x, y)
+        self.file += str(color)
 
         # calculate progress information
         self.renderedPixels = (y * self.resolution[0]) +  x
@@ -81,6 +82,7 @@ class PygameWIN(Rendertarget):
         self.startTime = time.time()
 
     def push(self, x, y, color):
+        color.clamp()
         super().push(color, x, y)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

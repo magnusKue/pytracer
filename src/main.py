@@ -9,10 +9,10 @@ from camera import *
 import rendertarget
 
 camera = Camera(
-    samples=100, 
+    samples=180, 
     aspectRatio=16/9,
-    imgWidth=100, 
-    maxBounces=60, 
+    imgWidth=800, 
+    maxBounces=3, 
     ambientOcclusion=col(0.01, 0.01, 0.04)
 )
 scene = Scene()
@@ -20,27 +20,20 @@ scene = Scene()
 # place spheres at random position with randomized size and material
 random.seed(24453)
 
-for z in range(3):
-    scene.addObject(
+
+scene.addObject(
         Sphere(
-            pos=point3(-4, math.sin(0.01*z)+1, -z*2),
-            radius=1,
-            material=Lambertian(col(random.uniform(0,1),random.uniform(0,1),random.uniform(0,1)))
-        )
-    )
-    scene.addObject(
-        Sphere(
-            pos=point3(4, math.sin(0.01*z)+1, -z*2),
-            radius=1,
-            material=Metal(col(random.uniform(0,1),random.uniform(0,1),random.uniform(0,1)), random.uniform(0,1))
+            pos=point3(-6, 2, -8),
+            radius=4,
+            material=Emmisive(col(100,100,100))
         )
     )
 
 scene.addObject(
         Sphere(
-            pos=point3(0, 1, -4),
+            pos=point3(2.1, 1, -8),
             radius=2,
-            material=Emmisive(col(1,1,1))
+            material=Lambertian(col(1,0,0))
         )
     )
 

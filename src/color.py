@@ -66,3 +66,8 @@ class col:
             self.componentToGamma(self.g),
             self.componentToGamma(self.b)
         )
+    
+    def clamp(self):
+        self.r = min(max(self.r, 0), 1)
+        self.g = min(max(self.g, 0), 1)
+        self.b = min(max(self.b, 0), 1)
