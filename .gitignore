@@ -11,7 +11,6 @@ __pycache__/
 *.code-workspace
 *.vscode/
 
-results/
 output/
 
 # Distribution / packaging
