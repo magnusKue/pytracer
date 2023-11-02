@@ -20,6 +20,21 @@ scene = Scene()
 # place spheres at random position with randomized size and material
 random.seed(24453)
 
+for z in range(3):
+    scene.addObject(
+        Sphere(
+            pos=point3(-4, math.sin(0.01*z)+1, -z*2),
+            radius=1,
+            material=Lambertian(col(random.uniform(0,1),random.uniform(0,1),random.uniform(0,1)))
+        )
+    )
+    scene.addObject(
+        Sphere(
+            pos=point3(4, math.sin(0.01*z)+1, -z*2),
+            radius=1,
+            material=Metal(col(random.uniform(0,1),random.uniform(0,1),random.uniform(0,1)), random.uniform(0,1))
+        )
+    )
 
 scene.addObject(
         Sphere(
