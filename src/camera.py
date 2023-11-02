@@ -88,8 +88,9 @@ class Camera:
         didCollide = len(collisions) > 0
 
         if not didCollide:
-            # render sky
             return self.ambientOcclusion
+        
+            # render sky
             unitDirection = normalize(ray.direction)
             lerpFac = 0.5 * (unitDirection.y+1)
             resColor = ((1-lerpFac) * col(1.0, 1.0, 1.0)) + (lerpFac * col(0.5, 0.7, 1.0)) # lerps between two colors 
