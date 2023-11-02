@@ -8,30 +8,18 @@ from material import *
 from camera import *
 import rendertarget
 
-samples = 100
-imgWidth = 200
-maxBounces = 60
-
-camera = Camera(samples=samples, imgWidth=imgWidth, maxBounces=maxBounces)
+camera = Camera(
+    samples=100, 
+    aspectRatio=16/9,
+    imgWidth=100, 
+    maxBounces=60, 
+    ambientOcclusion=col(0.01, 0.01, 0.04)
+)
 scene = Scene()
 
 # place spheres at random position with randomized size and material
 random.seed(24453)
-for z in range(3):
-    scene.addObject(
-        Sphere(
-            pos=point3(-4, math.sin(0.01*z)+1, -z*2),
-            radius=1,
-            material=Lambertian(col(random.uniform(0,1),random.uniform(0,1),random.uniform(0,1)))
-        )
-    )
-    scene.addObject(
-        Sphere(
-            pos=point3(4, math.sin(0.01*z)+1, -z*2),
-            radius=1,
-            material=Metal(col(random.uniform(0,1),random.uniform(0,1),random.uniform(0,1)), random.uniform(0,1))
-        )
-    )
+
 
 scene.addObject(
         Sphere(

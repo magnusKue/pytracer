@@ -6,10 +6,10 @@ from scene import *
 from hitinfo import *
 
 class Camera:
-    def __init__(self, samples, imgWidth, maxBounces) -> None:
+    def __init__(self, samples:int, aspectRatio:float, imgWidth:int, maxBounces:int, ambientOcclusion:col) -> None:
         
         ## IMAGE VALUES
-        self.imageAR = 16/9 # aspect ratio
+        self.imageAR = aspectRatio # aspect ratio
         self.imageWidth = imgWidth
         self.imageHeight = max(1, int(self.imageWidth / self.imageAR))
         self.allPixels = self.imageHeight * self.imageWidth
@@ -17,7 +17,7 @@ class Camera:
         ## SETTINGS
         self.samples = samples
         self.maxBounces = maxBounces
-        self.ambientOcclusion = col(0.01, 0.01, 0.04)
+        self.ambientOcclusion = ambientOcclusion
 
         self.focalLength = 1.0
         self.viewportH = 2.0
@@ -49,13 +49,12 @@ class Camera:
                 # calculate the first ray thats shooting out of the camera
                 pxCenter = self.originPixel + (x * self.pxDelta_u) + (y * self.pxDelta_v) 
                 rayDirection = pxCenter - self.cameraCenter
-                ray = Ray(self.cameraCenter, rayDirection) # not a unit vector
                 
                 color = col(0,0,0)
                 for i in range(self.samples):
+                    sampleRay = Ray(self.cameraCenter, rayDirection) # not a unit vector
                     # shift the ray origin to sample different subpixels
-                    sampleRay = ray
-                    sampleRay.origin += (random.randint(-50, 50) / 100) * self.pxDelta_u +  (random.randint(-50, 50) / 100) * self.pxDelta_v
+                    sampleRay.origin += random.uniform(-.5, .5) * self.pxDelta_u +  random.uniform(-.5, .5) * self.pxDelta_v
 
                     # add to pixel color by sending the first ray (will recursively bounce)
                     color += self.rayColor(sampleRay, scene, self.maxBounces)
