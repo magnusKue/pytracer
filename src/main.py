@@ -9,11 +9,11 @@ from camera import *
 import rendertarget
 
 camera = Camera(
-    samples=180, 
+    samples=350, 
     aspectRatio=16/9,
-    imgWidth=800, 
-    maxBounces=3, 
-    ambientOcclusion=col(0.01, 0.01, 0.04)
+    imgWidth=350, 
+    maxBounces=2, 
+    ambientOcclusion=col(0, 0, 0)
 )
 scene = Scene()
 
@@ -23,16 +23,16 @@ random.seed(24453)
 
 scene.addObject(
         Sphere(
-            pos=point3(-6, 2, -8),
-            radius=4,
-            material=Emmisive(col(100,100,100))
+            pos=point3(-6, 2, -250),
+            radius=200,
+            material=Emmisive(col(8,8,8))
         )
     )
 
 scene.addObject(
         Sphere(
-            pos=point3(2.1, 1, -8),
-            radius=2,
+            pos=point3(2.1, 2, -12),
+            radius=4,
             material=Lambertian(col(1,0,0))
         )
     )
