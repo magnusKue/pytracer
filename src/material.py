@@ -9,7 +9,10 @@ class Material:
         self.color = color
 
     def scatter(self, ray:Ray, normal, hitPoint):
-        pass
+        pass 
+
+    def emitted(self):
+        return col(0,0,0)
 
 class Lambertian(Material):
     ## BASIC DIFFUSE MATERIAL, RANDOMLY SCATTERING RAYS
@@ -39,4 +42,16 @@ class Metal(Material):
 
         # if we accidentaly shifted the ray to point inside of the object, we flag it so its ignored later on
         ignore = not dot(scatteredRay.direction, normal) > 0
+
         return scatteredRay, self.color, ignore
+
+class Emmisive(Material):
+    def __init__(self, color: col):
+        super().__init__(color)
+
+    def scatter(self, ray: Ray, normal, hitPoint):
+        # set ignore flag to true so the ray is not scattered
+        return ray, self.color, True
+    
+    def emitted(self):
+        return self.color

@@ -63,7 +63,7 @@ class Floor(object):
         self.yPos = yPos.y
         self.color1 = color1
         self.color2 = color2
-        self.material = material # this should never be seen
+        self.material = material # default color should never be seen
 
     def checkCollision(self, r:Ray, tmin:int, tmax:int):
         if r.direction.y >= 0:

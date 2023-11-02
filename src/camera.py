@@ -14,9 +14,10 @@ class Camera:
         self.imageHeight = max(1, int(self.imageWidth / self.imageAR))
         self.allPixels = self.imageHeight * self.imageWidth
 
-        ## DETAIL SETTINGS
+        ## SETTINGS
         self.samples = samples
         self.maxBounces = maxBounces
+        self.ambientOcclusion = col(0.01, 0.01, 0.04)
 
         self.focalLength = 1.0
         self.viewportH = 2.0
@@ -88,6 +89,7 @@ class Camera:
 
         if not didCollide:
             # render sky
+            return self.ambientOcclusion
             unitDirection = normalize(ray.direction)
             lerpFac = 0.5 * (unitDirection.y+1)
             resColor = ((1-lerpFac) * col(1.0, 1.0, 1.0)) + (lerpFac * col(0.5, 0.7, 1.0)) # lerps between two colors 
@@ -97,21 +99,24 @@ class Camera:
 
         #sort the list by distance of collision and get first object
         firstCollision = sorted(collisions, key=lambda x: x.t)[0] # sort by t and save first entry       
+        
         t = firstCollision.t
         hitPoint = firstCollision.hitPoint
-  
         normal = firstCollision.hitNormal
         material = firstCollision.hitMaterial
         incomingRay = firstCollision.ray
 
-        color = col(0,0,0)
-        # bounce the ray by recursion
         bounceRay, colo, ignore = material.scatter(incomingRay, normal, hitPoint)
-        if not ignore:
-            color = material.color * self.rayColor(bounceRay, scene, bouncesleft-1)
+        
+        if ignore:
+            return material.emitted()
+
+        # bounce the ray by recursion
+        colorFromScatter = material.color * self.rayColor(bounceRay, scene, bouncesleft-1)
+        colorFromEmission = material.emitted()
 
         #color = 0.5*col(normal.x+1, normal.y+1, normal.z+1) # uncomment for normal shading
-        return color
+        return colorFromScatter + colorFromEmission
 
         
 
