@@ -4,46 +4,36 @@ from vec import *
 from color import *
 from ray import *
 from hitinfo import *
-from material import *
 from camera import *
-import rendertarget
+import rendertarget, material
 
 camera = Camera(
-    samples=350, 
+    samples=50, 
     aspectRatio=16/9,
-    imgWidth=350, 
-    maxBounces=2, 
-    ambientOcclusion=col(0, 0, 0)
+    imgWidth=400, 
+    maxBounces=6, 
+    ambientOcclusion=col(1, 1, 1)
 )
 scene = Scene()
 
 # place spheres at random position with randomized size and material
 random.seed(24453)
 
-
 scene.addObject(
         Sphere(
-            pos=point3(-6, 2, -250),
-            radius=200,
-            material=Emmisive(col(8,8,8))
-        )
-    )
-
-scene.addObject(
-        Sphere(
-            pos=point3(2.1, 2, -12),
+            pos=point3(0, 0, -6),
             radius=4,
-            material=Lambertian(col(1,0,0))
+            material=material.Metal(col(0.4,0.4,0.1), 1)
         )
     )
 
-scene.addObject(Floor(
-        yPos = point3(0, -1, 0), 
-        color1 = col(0.9 ,0.9, 0.9), 
-        color2 = col(0.1, 0.1, 0.1),
-        material = Lambertian(col(0.8, 0.8, 0.0))
-    )
-)
+# scene.addObject(Floor(
+#         yPos = point3(0, -1, 0), 
+#         color1 = col(0.9 ,0.9, 0.9), 
+#         color2 = col(0.1, 0.1, 0.1),
+#         material = material.Emmisive(col(0.008, 0.008, 0.0))
+#     )
+# )
 
 
 # set the rendertartet which the color data will be sent to after rendering
