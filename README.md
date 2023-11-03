@@ -15,9 +15,9 @@ a simple python raytracer implementation
 To create your own renders: Modify samples, resolution, maxBounces and ambient occlusion in main.py and add or remove objects from the scene by calling scene.addObject() and passing an object as a parameter.
 
 <p align="center">
-  <img src="https://github.com/magnusKue/pytracer/blob/main/results/final6.png">
-  <img height="300" src="https://github.com/magnusKue/pytracer/blob/main/results/lights2.png">
-  <img width="460" height="300"  src="https://github.com/magnusKue/pytracer/blob/main/results/fuzzSteps.png">
+  <img height="380" src="https://github.com/magnusKue/pytracer/blob/main/results/final6.png">
+  <img height="200" src="https://github.com/magnusKue/pytracer/blob/main/results/lights2.png">
+  <img width="307" height="200"  src="https://github.com/magnusKue/pytracer/blob/main/results/fuzzSteps.png">
 </p>
 
 ### Denoising:
