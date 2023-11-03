@@ -10,7 +10,7 @@ import rendertarget, material
 camera = Camera(
     samples=50, 
     aspectRatio=16/9,
-    imgWidth=1200, 
+    imgWidth=1200, # note: the height is calculated from the width and the aspect ratio
     maxBounces=6, 
     ambientOcclusion=col(.4, .4, .8)
 )
