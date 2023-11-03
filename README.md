@@ -1,6 +1,7 @@
 # pytracer
 a simple python raytracer implementation
 
+---
 ## Features:
 - Lambertian diffuse
 - Metals with fuzziness
@@ -11,6 +12,7 @@ a simple python raytracer implementation
 - PPM file output
 - Miserable performance (slow af) 
 
+---
 ## Example renders:
 To create your own renders: Modify samples, resolution, maxBounces and ambient occlusion in "src/main.py" and add objects to the scene by calling scene.addObject() and passing an object as a parameter.
 
@@ -20,7 +22,8 @@ To create your own renders: Modify samples, resolution, maxBounces and ambient o
   <img width="307" height="200"  src="https://github.com/magnusKue/pytracer/blob/main/results/fuzzSteps.png">
 </p>
 
-### Denoising:
+---
+## Denoising:
 To denoise a render: Run "denoiser/denoise.py", choose the input file in the first filedialogue and choose the output folder in the second.
 
 <p align="center">
