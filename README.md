@@ -28,7 +28,6 @@ To denoise a render: Run "denoiser/denoise.py", choose the input file in the fir
 
 <p align="center">
   <img width="460" height="300" src="https://github.com/magnusKue/pytracer/blob/b09168ebfc334fc42beac90bb375a7fe27ea9f3a/results/final1.png">
-  ➔
   <img width="460" height="300" src="https://github.com/magnusKue/pytracer/blob/b09168ebfc334fc42beac90bb375a7fe27ea9f3a/results/denoised/final1_denoised.png">
 </p>
 
