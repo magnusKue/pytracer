@@ -8,9 +8,9 @@ from camera import *
 import rendertarget, material
 
 camera = Camera(
-    samples=50, 
+    samples=3, 
     aspectRatio=16/9,
-    imgWidth=400, 
+    imgWidth=100, 
     maxBounces=6, 
     ambientOcclusion=col(1, 1, 1)
 )

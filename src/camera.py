@@ -106,13 +106,13 @@ class Camera:
         material = firstCollision.hitMaterial
         incomingRay = firstCollision.ray
 
-        bounceRay, colo, ignore = material.scatter(incomingRay, normal, hitPoint)
+        scatterInfoObj = material.scatter(incomingRay, normal, hitPoint)
         
-        if ignore:
+        if scatterInfoObj.ignore:
             return material.emitted()
 
         # bounce the ray by recursion
-        colorFromScatter = material.color * self.rayColor(bounceRay, scene, bouncesleft-1)
+        colorFromScatter = scatterInfoObj.color * self.rayColor(scatterInfoObj.rayOut, scene, bouncesleft-1)
         colorFromEmission = material.emitted()
 
         #color = 0.5*col(normal.x+1, normal.y+1, normal.z+1) # uncomment for normal shading

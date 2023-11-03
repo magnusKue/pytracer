@@ -4,6 +4,16 @@ from color import *
 ## MATERIALS ARE DEFINED BY THEIR COLOR AND THE WAY THEY REDIRECT RAYS, HITTING THEIR SURFACE. 
 ## THIS PROPERTY IS DESCRIBED IN THE SCATTER FUNTCTION.
 
+class ScatterInfo:
+    def __init__(self, rayOut, color, ignore) -> None:
+        self.rayOut = rayOut
+        self.color = color
+        self.ignore = ignore
+
+    @staticmethod
+    def ignoreScatter():
+        return ScatterInfo(rayOut=None, color=None, ignore=True)
+
 class Material:
     def __init__(self, color:col):
         self.color = color
@@ -23,7 +33,7 @@ class Lambertian(Material):
         scatteredRay = Ray(hitPoint, vec3.randomInUnitSphere() + normal)
         if scatteredRay.direction.isNearZero():
             scatteredRay.direction = normal
-        return scatteredRay, self.color, False
+        return ScatterInfo(rayOut=scatteredRay, color=self.color, ignore=False)
     
 class Metal(Material):
     ## REFLECTIVE SURFACE, PERFECTLY MIRRORING AN INCOMING RAY
@@ -43,7 +53,7 @@ class Metal(Material):
         # if we accidentaly shifted the ray to point inside of the object, we flag it so its ignored later on
         ignore = not dot(scatteredRay.direction, normal) > 0
 
-        return scatteredRay, self.color, ignore
+        return ScatterInfo(rayOut=scatteredRay, color=self.color, ignore=ignore)
 
 class Emmisive(Material):
     def __init__(self, color: col):
@@ -51,7 +61,7 @@ class Emmisive(Material):
 
     def scatter(self, ray: Ray, normal, hitPoint):
         # set ignore flag to true so the ray is not scattered
-        return ray, self.color, True
+        return ScatterInfo.ignoreScatter()
     
     def emitted(self):
         return self.color
