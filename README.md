@@ -31,3 +31,13 @@ To denoise a render: Run "denoiser/denoise.py", choose the input file in the fir
   ➔
   <img width="460" height="300" src="https://github.com/magnusKue/pytracer/blob/b09168ebfc334fc42beac90bb375a7fe27ea9f3a/results/denoised/final1_denoised.png">
 </p>
+
+---
+## Project structure
+| Folder | content |
+| --- | --- |
+| results/ | All of my renders (even those from older more primitive versions of the raytracer) |
+| └ results/denoised | denoised versions of some of the renders |
+| └ results/fails | funny failed renders luckily i dont have many of those.. or sadly |
+| output/ | This is where the resulting image file of a render is written to (also overwriting old ones!)|
+| src/ | This is where the code is |
