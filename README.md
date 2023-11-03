@@ -1,24 +1,27 @@
 # pytracer
-python raytracer implementation
+a simple python raytracer implementation
 
 ## Features:
-- Lambertian Diffuse
-- Metal with fuzziness
-- Checkerboard floor
+- Lambertian diffuse
+- Metals with fuzziness
+- The classic checkerboard floor texture
 - Emissive materials
-- optional denoiser
-- live render preview while rendering
+- Optional denoiser
+- Live preview while rendering
 - PPM file output
-- misserable performance
+- Miserable performance (slow af)
 
 ## Example renders:
+To create your own renders: Modify samples, resolution, maxBounces and ambient occlusion in main.py and add or remove objects from the scene by calling scene.addObject() and passing an object as a parameter.
+
 <p align="center">
   <img src="https://github.com/magnusKue/pytracer/blob/main/results/final6.png">
   <img height="300" src="https://github.com/magnusKue/pytracer/blob/main/results/lights2.png">
   <img width="460" height="300"  src="https://github.com/magnusKue/pytracer/blob/main/results/fuzzSteps.png">
 </p>
 
-### denoising:
+### Denoising:
+To denoise a render: Run "denoiser/denoise.py", choose the input file in the first filedialogue and choose the output folder in the second.
 
 <p align="center">
   <img width="460" height="300" src="https://github.com/magnusKue/pytracer/blob/b09168ebfc334fc42beac90bb375a7fe27ea9f3a/results/final1.png">
