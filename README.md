@@ -13,8 +13,9 @@ python raytracer implementation
 
 ## Example renders:
 <p align="center">
-  <img width="460" height="300" src="https://github.com/magnusKue/pytracer/blob/main/results/final6.png">
-  <img src="https://github.com/magnusKue/pytracer/blob/main/results/lights2.png">
+  <img src="https://github.com/magnusKue/pytracer/blob/main/results/final6.png">
+  <img height="300" src="https://github.com/magnusKue/pytracer/blob/main/results/lights2.png">
+  <img width="460" height="300"  src="https://github.com/magnusKue/pytracer/blob/main/results/fuzzSteps.png">
 </p>
 
 ### denoising:
