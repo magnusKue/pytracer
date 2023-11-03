@@ -8,32 +8,33 @@ from camera import *
 import rendertarget, material
 
 camera = Camera(
-    samples=3, 
+    samples=50, 
     aspectRatio=16/9,
-    imgWidth=100, 
+    imgWidth=1200, 
     maxBounces=6, 
-    ambientOcclusion=col(1, 1, 1)
+    ambientOcclusion=col(.4, .4, .8)
 )
 scene = Scene()
 
 # place spheres at random position with randomized size and material
 random.seed(24453)
 
-scene.addObject(
-        Sphere(
-            pos=point3(0, 0, -6),
-            radius=4,
-            material=material.Metal(col(0.4,0.4,0.1), 1)
+for x in range(5):
+    scene.addObject(    
+            Sphere(
+                pos=point3(-4+2*x, .5, -6),
+                radius=1,
+                material=material.Metal(col(.8,.8,.3), x * .25)
+            )
         )
-    )
 
-# scene.addObject(Floor(
-#         yPos = point3(0, -1, 0), 
-#         color1 = col(0.9 ,0.9, 0.9), 
-#         color2 = col(0.1, 0.1, 0.1),
-#         material = material.Emmisive(col(0.008, 0.008, 0.0))
-#     )
-# )
+scene.addObject(Floor(
+        yPos = point3(0, -1, 0), 
+        color1 = col(0.9 ,0.01, 0.01), 
+        color2 = col(.9, .9, .9),
+        material = material.Lambertian(col(0.008, 0.008, 0.0))
+    )
+)
 
 
 # set the rendertartet which the color data will be sent to after rendering
