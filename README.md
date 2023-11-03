@@ -9,10 +9,10 @@ a simple python raytracer implementation
 - Optional denoiser
 - Live preview while rendering
 - PPM file output
-- Miserable performance (slow af)
+- Miserable performance (slow af) 
 
 ## Example renders:
-To create your own renders: Modify samples, resolution, maxBounces and ambient occlusion in main.py and add or remove objects from the scene by calling scene.addObject() and passing an object as a parameter.
+To create your own renders: Modify samples, resolution, maxBounces and ambient occlusion in "src/main.py" and add objects to the scene by calling scene.addObject() and passing an object as a parameter.
 
 <p align="center">
   <img height="380" src="https://github.com/magnusKue/pytracer/blob/main/results/final6.png">
@@ -25,5 +25,6 @@ To denoise a render: Run "denoiser/denoise.py", choose the input file in the fir
 
 <p align="center">
   <img width="460" height="300" src="https://github.com/magnusKue/pytracer/blob/b09168ebfc334fc42beac90bb375a7fe27ea9f3a/results/final1.png">
+  ➔
   <img width="460" height="300" src="https://github.com/magnusKue/pytracer/blob/b09168ebfc334fc42beac90bb375a7fe27ea9f3a/results/denoised/final1_denoised.png">
 </p>
