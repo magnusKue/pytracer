@@ -27,8 +27,8 @@ To create your own renders: Modify samples, resolution, maxBounces and ambient o
 To denoise a render: Run "denoiser/denoise.py", choose the input file in the first filedialogue and choose the output folder in the second.
 
 <p align="center">
-  <img height="250" src="https://github.com/magnusKue/pytracer/blob/b09168ebfc334fc42beac90bb375a7fe27ea9f3a/results/final1.png">
-  <img height="250" src="https://github.com/magnusKue/pytracer/blob/b09168ebfc334fc42beac90bb375a7fe27ea9f3a/results/denoised/final1_denoised.png">
+  <img height="200" src="https://github.com/magnusKue/pytracer/blob/b09168ebfc334fc42beac90bb375a7fe27ea9f3a/results/final1.png">
+  <img height="200" src="https://github.com/magnusKue/pytracer/blob/b09168ebfc334fc42beac90bb375a7fe27ea9f3a/results/denoised/final1_denoised.png">
 </p>
 
 ---
