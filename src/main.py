@@ -10,15 +10,17 @@ import rendertarget, material
 camera = Camera(
     samples=50, 
     aspectRatio=16/9,
-    imgWidth=1200, # note: the height is calculated from the width and the aspect ratio
+    imgWidth=400, # note: the height is calculated from the width and the aspect ratio
     maxBounces=6, 
-    ambientOcclusion=col(.4, .4, .8)
+    ambientOcclusion=col(.4, .4, .8),
+    useSky=True
 )
 scene = Scene()
 
-# place spheres at random position with randomized size and material
 random.seed(24453)
+# place spheres
 
+############# SETUP SCENE ################
 for x in range(5):
     scene.addObject(    
             Sphere(
@@ -35,7 +37,7 @@ scene.addObject(Floor(
         material = material.Lambertian(col(0.008, 0.008, 0.0))
     )
 )
-
+##########################################
 
 # set the rendertartet which the color data will be sent to after rendering
 rt = rendertarget.PygameWIN(
@@ -44,7 +46,7 @@ rt = rendertarget.PygameWIN(
     path="C:\\Users\\Magnus\\Magnus\\Code\\py\\raytracer\\v01\\pytracer\\output\\output2.ppm"
 )
 
-# render the scene
-deltaT = camera.render(renderTarget=rt, scene=scene)        
+# render the scene and get time diff
+deltaTime = camera.render(renderTarget=rt, scene=scene)        
 
-rt.finish(deltaT = deltaT)
+rt.finish(deltaT = deltaTime)
