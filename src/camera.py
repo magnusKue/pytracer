@@ -78,7 +78,7 @@ class Camera:
         
         # return sky if and break out of recursion loop if no collision happened
         if not collisions:
-            return self.getSkyColor(ray)
+            return scene.sky.getSkyColor(ray)
         
 
         #sort the list by distance of collision and get first object
@@ -99,16 +99,8 @@ class Camera:
 
         #color = 0.5*col(normal.x+1, normal.y+1, normal.z+1) # uncomment for normal shading
         return colorFromScatter + colorFromEmission
-    
-    def getSkyColor(self, ray):
-        if not self.useSky:
-            return self.ambientOcclusion
-        else:
-            # render sky by belending between two colors depending on the ray "angle" and scaling the result by the ambient occlusion
-            unitDirection = normalize(ray.direction)
-            lerpFac = 0.5 * (unitDirection.y+1)
-            resColor = ((1-lerpFac) * col(1.0, 1.0, 1.0)) + (lerpFac * col(0.5, 0.7, 1.0)) # lerps between two colors 
-            return resColor * self.ambientOcclusion 
+
+        
 
         
 

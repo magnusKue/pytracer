@@ -106,3 +106,6 @@ def cross(vec1, vec2) -> vec3:
 class point3(vec3):
     def __init__(self, x, y, z) -> None:
         super().__init__(x, y, z)
+
+def listToPoint(l:list):
+    return point3(l[0], l[1], l[2])

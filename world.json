@@ -1,0 +1,40 @@
+{
+    "scene1":{
+        "ambient_occlusion":[0.06, 0.091, 0.09],
+        "use_sky_gradient":false,
+
+        "objects":[
+            {
+                "type": "sphere", 
+                "radius": 1, 
+                "position":[-4, 0.5, -6],
+
+                "material":{"type":"lambertian","color":[0.99, 0.01, 0.01]}
+            },
+            {
+                "type": "sphere", 
+                "radius": 1, 
+                "position":[-2, 0.5, -6],
+
+                "color":[1,1,1],
+                "material":{"type":"emissive", "color":[0, 3, 0]}
+            },
+            {
+                "type": "sphere", 
+                "radius": 1, 
+                "position":[2, 0.5, -6],
+
+                "material":{"type":"metal", "color":[0.01, 0.01, 0.99], "fuzz":1}
+            },
+
+            {
+                "type": "floor", 
+                "position":[0,-1,0],
+
+                "color1":[0.7,0.7,0.7],
+                "color2":[0.01,0.01,0.01],
+                "material":{"type":"lambertian"}
+            }
+        ]
+    }
+}

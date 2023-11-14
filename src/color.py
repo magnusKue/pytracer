@@ -71,3 +71,6 @@ class col:
         self.r = min(max(self.r, 0), 1)
         self.g = min(max(self.g, 0), 1)
         self.b = min(max(self.b, 0), 1)
+
+def listToCol(l:list):
+    return col(l[0], l[1], l[2])

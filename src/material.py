@@ -55,7 +55,7 @@ class Metal(Material):
 
         return ScatterInfo(rayOut=scatteredRay, color=self.color, ignore=ignore)
 
-class Emmisive(Material):
+class Emissive(Material):
     def __init__(self, color: col):
         super().__init__(color)
 
