@@ -51,7 +51,7 @@ random.seed(24453)
 rt = rendertarget.PygameWIN(
     resolution=[camera.imageWidth, camera.imageHeight],
     maxColorValue=255,
-    path= pathlib.Path(__file__).resolve().parent / pathlib.Path("../output/output.ppm")
+    path= pathlib.Path(__file__).resolve().parent / pathlib.Path("../output.ppm")
 )
 
 # render the scene and get time diff
