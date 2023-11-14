@@ -45,3 +45,11 @@ To denoise a render: Run "denoiser/denoise.py", choose the input file in the fir
 
 ---
 ## ARGS
+| ARG | Action |
+| --- | --- |
+|-h, --help                                                    | show all possible args in a help message
+|--scene SCENE, -S SCENE, -scn SCENE                           | Load a scene from world.json. Input needs to be a valid name
+|--samples SAMPLES, -s SAMPLES, -smp SAMPLES                   | Number of samples per pixel
+|--bounces BOUNCES, -b BOUNCES, -bnc BOUNCES                   | Ray bounce cap
+|--resolution RESOLUTION, -r RESOLUTION, -res RESOLUTION       | Image resolution as WIDTHxHEIGHT (Bsp: "600x400")
+|--destination DESTINATION, -d DESTINATION, -dest DESTINATION  | Path to the rendered image
