@@ -48,7 +48,7 @@ class col:
     def __imul__(self, o):
         return self * o
 
-    def __truediv__(self, o:int | float):
+    def __truediv__(self, o):
         return (1/o) * self
     
     def __itruediv__(self, o):

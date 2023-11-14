@@ -27,7 +27,7 @@ args = parser.parse_args()
 
 res = None
 if args.resolution:
-    res = [int(args.res.split("x")[0]), int(args.res.split("x")[1])]
+    res = [int(args.resolution.split("x")[0]), int(args.resolution.split("x")[1])]
 
 
 camera = Camera(
