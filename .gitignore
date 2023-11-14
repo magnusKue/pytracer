@@ -12,6 +12,7 @@ __pycache__/
 *.vscode/
 
 output/
+pytracer/output/
 
 # Distribution / packaging
 .Python

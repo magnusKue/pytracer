@@ -11,7 +11,7 @@ import rendertarget, material
 
 defaultSamples = 50
 defaultAR = 16/9
-defaultImageWidth = 400
+defaultImageWidth = 50
 defaultBounceCap = 6
 
 parser = argparse.ArgumentParser(description='\x1b[1;32;40mA simple python raytracer\x1b[0m')
@@ -24,7 +24,7 @@ parser.add_argument('--resolution', "-r", "-res", type=str, help=color+f'Image r
 args = parser.parse_args()
 
 res = None
-if args.res:
+if args.resolution:
     res = [int(args.res.split("x")[0]), int(args.res.split("x")[1])]
 
 
