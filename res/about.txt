@@ -1,0 +1,22 @@
+Pytracer
+
+In the context of a school project centered on computer graphics, 
+I took on the task of creating a Python-based ray tracer. 
+I chose Python because it's familiar to me and made it less intimidating 
+to tackle the challenges associated with the project.
+
+While this ray tracer may not be the fastest or most feature-packed, 
+and the code is most certainly not the cleanest, 
+it serves as a reflection of a structured exploration of concepts and 
+an opportunity to refine my programming skills. 
+
+The intentional use of Python, despite potential limitations, 
+allowed for a focused examination of the fundamental principles of ray tracing.
+Acknowledging its shortcomings, this project is a formal journey to grasp computer graphics. 
+It's not about being a tech wizard; it's more about slowly figuring things out, 
+proving a dedication to methodical learning in a tricky field.
+
+In conclusion, this ray tracer serves as an academic exercise, 
+showcasing the application of theoretical knowledge 
+to practical implementation within the field of computer graphics.
+And yes, i did write this text using chatGPT.
