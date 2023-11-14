@@ -1,17 +1,17 @@
-import pygame, sys, time, datetime, os, argparse, math
+import pygame, sys, time, datetime, os, argparse, math, pathlib
 from debug import Debug
 
 from colorama import init as colorama_init
 from colorama import Fore, Back, Style
 
-def printProgressBar(iteration, total, decimals = 2, length = 100, fill = '█', empty="-"):
+def printProgressBar(iteration, total, decimals = 2, length = 100, fill = '█', empty="-", bg=""):
 
     percentNUM = 100 * (iteration / float(total))
     color = Fore.GREEN if percentNUM >= 66 else Fore.YELLOW if percentNUM >= 33 else Fore.RED 
     percent = ("{0:." + str(decimals) + "f}").format(percentNUM)
     filledLength = int(length * iteration // total)
-    bar = color+fill * filledLength + Fore.CYAN + empty * (length - filledLength)+ Style.RESET_ALL
-    return f'{Fore.CYAN}[{bar}{Fore.CYAN}] {color}{percent}%{Style.RESET_ALL}'
+    bar = color+fill * filledLength + bg + empty * (length - filledLength)+ Style.RESET_ALL
+    return f'{bg}[{bar}{bg}] {color}{percent}%{Style.RESET_ALL}'
 
 def str2bool(v):
     if isinstance(v, bool):
@@ -34,15 +34,17 @@ class Rendertarget:
         pass
 
 class PPM(Rendertarget):
-    def __init__(self, resolution, maxColorValue, path) -> None:
+    def __init__(self, resolution, maxColorValue, path, useWhite) -> None:
         super().__init__()
         self.maxColorVal = maxColorValue
         self.file = ""
         self.file += f"P3\n{resolution[0]} {resolution[1]} \n{self.maxColorVal}\n" # file header
-        self.path = path
+        self.path = pathlib.Path.resolve(pathlib.Path(path))
         self.resolution = resolution
         self.startTime = time.time()
         self.allPixels = self.resolution[0]*self.resolution[1]
+        self.defaultColor = Fore.WHITE if useWhite else Fore.CYAN
+        self.defaultBG = Back.WHITE if useWhite else Back.CYAN
 
         self.renderedPixels = 0
         self.pxRemaining = 0
@@ -50,8 +52,8 @@ class PPM(Rendertarget):
         self.est   = 0
 
         os.system('cls')
-        print(f"\n{Back.CYAN}{Fore.BLACK}| rendering..  {Style.RESET_ALL}\n")
-        print(f"{Fore.CYAN}Depending on Resolution, Samples and Bouncelimit this might take a while. \n- Use {Fore.RED}CTRL-C{Fore.CYAN} to cancel{Style.RESET_ALL}\n")
+        print(f"\n{self.defaultBG}{Fore.BLACK}| rendering..  {Style.RESET_ALL}\n")
+        print(f"{self.defaultColor}Depending on Resolution, Samples and Bouncelimit this might take a while. \n- Use {Fore.RED}CTRL-C{self.defaultColor} to cancel{Style.RESET_ALL}\n")
 
 
     def push(self, x, y, color):
@@ -69,10 +71,11 @@ class PPM(Rendertarget):
 
         # display them
 
-        prgrs = printProgressBar(self.allPixels-self.pxRemaining,self.allPixels,length=50)
-        est = f"{Fore.CYAN}est: {Fore.GREEN}{datetime.timedelta(seconds=self.est)}{Style.RESET_ALL}"
-        pxs = f"{Fore.CYAN}px/s: {Fore.GREEN}{self.pxPerSec:0.2f}{Style.RESET_ALL}"
-        outof = f"{Fore.CYAN}( {Fore.GREEN}{self.pxRemaining}{Fore.CYAN}px | {Fore.GREEN}{self.allPixels}{Fore.CYAN}px ){Style.RESET_ALL}"
+        cyn = self.defaultColor
+        prgrs = printProgressBar(self.allPixels-self.pxRemaining,self.allPixels,length=50, bg=self.defaultColor)
+        est = f"{cyn}est: {Fore.GREEN}{datetime.timedelta(seconds=self.est)}{Style.RESET_ALL}"
+        pxs = f"{cyn}px/s: {Fore.GREEN}{self.pxPerSec:0.2f}{Style.RESET_ALL}"
+        outof = f"{cyn}( {Fore.GREEN}{self.pxRemaining}{cyn}px | {Fore.GREEN}{self.allPixels}{cyn}px ){Style.RESET_ALL}"
         output = f"{prgrs} | {pxs} | {outof} | {est}            "
 
         sys.stdout.write("\r{0}".format(output)) # extra space to override old text
@@ -85,17 +88,25 @@ class PPM(Rendertarget):
         with open(self.path, "w") as fp:
             fp.write(self.file+"_"+str(deltaT))
         
-        os.system('cls')
         deltaT = time.time() - self.startTime
-        print(f"rendered {self.resolution[0]} x {self.resolution[1]} pixels in {str(datetime.timedelta(seconds=deltaT))}s")
+        
+        os.system('cls')
+        cyn = self.defaultColor
+        green = Fore.GREEN
+        print(f"\n{self.defaultBG}{Fore.BLACK}| Done!  {Style.RESET_ALL}\n")
+        renderDeltaSec = str(datetime.timedelta(seconds=deltaT))
+        renderDelta = str(renderDeltaSec.split(".")[0]) + "." + str(renderDeltaSec.split(".")[1][:2])
+        print(f"{cyn}- rendered {green}{self.resolution[0]} {cyn}x {green}{self.resolution[1]} {cyn}pixels in {green}{renderDelta}{cyn}s -")
+        print(f"{cyn}Output was saved to \"{Fore.RED}{self.path}{cyn}\"")
+        print(f"{cyn}\n[Run {Fore.GREEN}denoiser/denoise.py {cyn}if you want to denoise your render.]\n  \nThank you for using PyTracer!\n")
 
 class PygameWIN(Rendertarget):
-    def __init__(self, resolution, maxColorValue, path) -> None:
+    def __init__(self, resolution, maxColorValue, path, useWhite) -> None:
         super().__init__()
         pygame.init()
         self.maxColorVal = maxColorValue
 
-        self.winWidth = 1600
+        self.winWidth = 1200
     	
         self.resolution = resolution
         ar = self.resolution[1]/self.resolution[0]
@@ -114,7 +125,7 @@ class PygameWIN(Rendertarget):
         
         pygame.display.set_caption("Pytracer")
 
-        self.subtarget = PPM(resolution, maxColorValue, path)
+        self.subtarget = PPM(resolution, maxColorValue, path, useWhite)
 
         self.startTime = time.time()
 

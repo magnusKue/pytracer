@@ -17,7 +17,8 @@ argParser = Parser(
     defaultImageWidth = 400,
     defaultBounceCap = 4,
     defaultDest = pathlib.Path(__file__).resolve().parent / pathlib.Path("../output.ppm"),
-    defaultPreview = True
+    defaultPreview = True,
+    defaultWhite = False
 )
 args = argParser.getArgs()
 
@@ -48,13 +49,15 @@ if args.preview:
     rt = rendertarget.PygameWIN(
         resolution=[camera.imageWidth, camera.imageHeight],
         maxColorValue=255,
-        path= args.destination
+        path= args.destination,
+        useWhite= args.usewhite
     )
 else:
     rt = rendertarget.PPM(
         resolution=[camera.imageWidth, camera.imageHeight],
         maxColorValue=255,
-        path = args.destination
+        path = args.destination,
+        useWhite= args.usewhite
     )
 
 # render the scene and get time diff
