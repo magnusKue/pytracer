@@ -23,6 +23,7 @@ class Scene:
             data = json.load(world)[scene]
         self.sky.ambientOcclusion = listToCol(data["ambient_occlusion"])
         self.sky.useSky = data["use_sky_gradient"]
+        self.sky.bendingFac = data["sky_bending"]
 
         for obj in data["objects"]:
             mat = None
@@ -64,9 +65,10 @@ class Object:
         pass
 
 class Sky:
-    def __init__(self, useSky, AO):
+    def __init__(self, useSky, AO, bendingFac=1):
         self.useSky = useSky
         self.ambientOcclusion = AO
+        self.bendingFac = bendingFac
 
     def getSkyColor(self, ray):
         if not self.useSky:
@@ -74,9 +76,9 @@ class Sky:
         else:
             # render sky by belending between two colors depending on the ray "angle" and scaling the result by the ambient occlusion
             unitDirection = normalize(ray.direction)
-            lerpFac = 0.5 * (unitDirection.y+1)
-            resColor = ((1-lerpFac) * col(1.0, 1.0, 1.0)) + (lerpFac * col(0.5, 0.7, 1.0)) # lerps between two colors 
-            return resColor * self.ambientOcclusion 
+            lerpFac = 0.5 * (unitDirection.y*self.bendingFac+1)
+            resColor = ((1-lerpFac) * col(0.0, 0.0, 0.0)) + (lerpFac * col(1.0, 1.0, 1.0)) # lerps between two colors 
+            return resColor.clamp() * self.ambientOcclusion 
 
 class Sphere(Object):
     def __init__(self, pos:point3, radius, material:Material):

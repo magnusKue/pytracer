@@ -95,7 +95,7 @@ class PPM(Rendertarget):
         green = Fore.GREEN
         print(f"\n{self.defaultBG}{Fore.BLACK}| Done!  {Style.RESET_ALL}\n")
         renderDeltaSec = str(datetime.timedelta(seconds=deltaT))
-        renderDelta = str(renderDeltaSec.split(".")[0]) + "." + str(renderDeltaSec.split(".")[1][:2])
+        renderDelta = str(renderDeltaSec.split(".")[0])
         print(f"{cyn}- rendered {green}{self.resolution[0]} {cyn}x {green}{self.resolution[1]} {cyn}pixels in {green}{renderDelta}{cyn}s -")
         print(f"{cyn}Output was saved to \"{Fore.RED}{self.path}{cyn}\"")
         print(f"{cyn}\n[Run {Fore.GREEN}denoiser/denoise.py {cyn}if you want to denoise your render.]\n  \nThank you for using PyTracer!\n")
@@ -111,6 +111,10 @@ class PygameWIN(Rendertarget):
         self.resolution = resolution
         ar = self.resolution[1]/self.resolution[0]
         self.winHeight = self.winWidth * ar
+
+        programIcon = pygame.image.load(pathlib.Path(__file__).resolve().parent / pathlib.Path("../res/icon.png"))
+        pygame.display.set_icon(programIcon)
+
         self.root = pygame.display.set_mode([self.winWidth, self.winHeight])
         self.root.fill((87, 80, 89))
 
