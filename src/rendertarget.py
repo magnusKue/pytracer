@@ -1,5 +1,27 @@
-import pygame, sys, time, datetime, os
+import pygame, sys, time, datetime, os, argparse, math
 from debug import Debug
+
+from colorama import init as colorama_init
+from colorama import Fore, Back, Style
+
+def printProgressBar(iteration, total, decimals = 2, length = 100, fill = '█', empty="-"):
+
+    percentNUM = 100 * (iteration / float(total))
+    color = Fore.GREEN if percentNUM >= 66 else Fore.YELLOW if percentNUM >= 33 else Fore.RED 
+    percent = ("{0:." + str(decimals) + "f}").format(percentNUM)
+    filledLength = int(length * iteration // total)
+    bar = color+fill * filledLength + Fore.CYAN + empty * (length - filledLength)+ Style.RESET_ALL
+    return f'{Fore.CYAN}[{bar}{Fore.CYAN}] {color}{percent}%{Style.RESET_ALL}'
+
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
 
 class Rendertarget:
     def __init__(self) -> None:
@@ -20,11 +42,16 @@ class PPM(Rendertarget):
         self.path = path
         self.resolution = resolution
         self.startTime = time.time()
+        self.allPixels = self.resolution[0]*self.resolution[1]
 
         self.renderedPixels = 0
         self.pxRemaining = 0
         self.pxPerSec = 0
         self.est   = 0
+
+        os.system('cls')
+        print(f"\n{Back.CYAN}{Fore.BLACK}| rendering..  {Style.RESET_ALL}\n")
+        print(f"{Fore.CYAN}Depending on Resolution, Samples and Bouncelimit this might take a while. \n- Use {Fore.RED}CTRL-C{Fore.CYAN} to cancel{Style.RESET_ALL}\n")
 
 
     def push(self, x, y, color):
@@ -35,13 +62,23 @@ class PPM(Rendertarget):
         # calculate progress information
         self.renderedPixels = (y * self.resolution[0]) +  x
         self.pxRemaining = (self.resolution[0] * self.resolution[1]) - self.renderedPixels
+        
         self.pxPerSec =  round(self.renderedPixels / max(1, time.time() - self.startTime), 2)
 
         self.est = int(self.pxRemaining / max(self.pxPerSec, 1))
 
         # display them
-        sys.stdout.write("\r{0}".format(f"pixels remaining: {self.pxRemaining}  px/s: {self.pxPerSec}  est: {datetime.timedelta(seconds=self.est)}                                 ")) # extra space to override old text
+
+        prgrs = printProgressBar(self.allPixels-self.pxRemaining,self.allPixels,length=50)
+        est = f"{Fore.CYAN}est: {Fore.GREEN}{datetime.timedelta(seconds=self.est)}{Style.RESET_ALL}"
+        pxs = f"{Fore.CYAN}px/s: {Fore.GREEN}{self.pxPerSec:0.2f}{Style.RESET_ALL}"
+        outof = f"{Fore.CYAN}( {Fore.GREEN}{self.pxRemaining}{Fore.CYAN}px | {Fore.GREEN}{self.allPixels}{Fore.CYAN}px ){Style.RESET_ALL}"
+        output = f"{prgrs} | {pxs} | {outof} | {est}            "
+
+        sys.stdout.write("\r{0}".format(output)) # extra space to override old text
         sys.stdout.flush()
+
+
     
     def finish(self, deltaT):
         super().finish(deltaT)
