@@ -1,25 +1,42 @@
-import os, sys, time, datetime, random
+import sys, random, argparse
 
 from vec import *
 from color import *
-from ray import *
-from hitinfo import *
+
 from camera import *
 import rendertarget, material
 
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide" # disable annoying pygame welcome message
+
+parser = argparse.ArgumentParser(description='A simple python raytracer')
+
+parser.add_argument('--scene', "-S", type=str, help='Load a scene from world.json')
+parser.add_argument('--samples', "-s", type=int, help='Number of samples per pixel')
+parser.add_argument('--bounces', "-b", type=int, help='Ray bounce cap. Default is 6')
+parser.add_argument('--res', "-r", type=str, help='Image resolution as WIDTHxHEIGHT (Bsp: "600x400")')
+args = parser.parse_args()
+
+res = None
+if args.res:
+    res = [int(args.res.split("x")[0]), int(args.res.split("x")[1])]
+
 camera = Camera(
-    samples=3, 
-    aspectRatio=16/9,
-    imgWidth=100, # note: the height is calculated from the width and the aspect ratio
-    maxBounces=6, 
+    samples=args.samples if args.samples else 3, 
+    aspectRatio= max(1, float(res[0]/res[1])) if res else 16/9,
+    imgWidth=res[0] if res else 400, # note: if not given the height is calculated from the width and the aspect ratio
+    maxBounces=args.bounces if args.bounces else 3, 
     ambientOcclusion=col(.4, .4, .8),
     useSky=True
 )
+
+
+
 scene = Scene(
     AO=col(1,1,1),
     useSky=True
 )
-scene.load("scene1")
+scene.load(args.scene if args.scene else "scene1")
 
 random.seed(24453)
 
@@ -27,7 +44,7 @@ random.seed(24453)
 rt = rendertarget.PygameWIN(
     resolution=[camera.imageWidth, camera.imageHeight],
     maxColorValue=255,
-    path="pytracer\output\output2.ppm"
+    path="pytracer\\output\\output2.ppm"
 )
 
 # render the scene and get time diff

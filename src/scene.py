@@ -13,7 +13,7 @@ class Scene:
     def __init__(self, AO, useSky):
         self.sky = Sky(AO=AO, useSky=useSky)
         self.objects = []
-        self.path = "pytracer\world.json"
+        self.path = "pytracer\\world.json"
 
     def addObject(self, object):
         self.objects.append(object)
