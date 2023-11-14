@@ -1,13 +1,14 @@
-import sys, random, argparse
+import sys, random, argparse, pathlib
 
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide" # disable annoying pygame welcome message
+ 
 from vec import *
 from color import *
 
 from camera import *
 import rendertarget, material
 
-import os
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide" # disable annoying pygame welcome message
 
 parser = argparse.ArgumentParser(description='A simple python raytracer')
 
@@ -44,7 +45,7 @@ random.seed(24453)
 rt = rendertarget.PygameWIN(
     resolution=[camera.imageWidth, camera.imageHeight],
     maxColorValue=255,
-    path="pytracer\\output\\output2.ppm"
+    path= pathlib.Path(__file__).resolve().parent / pathlib.Path("../output/output2.ppm")
 )
 
 # render the scene and get time diff

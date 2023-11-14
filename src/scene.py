@@ -4,7 +4,7 @@ from color import *
 from hitinfo import *
 from material import *
 from math import sqrt, floor
-import json
+import json, pathlib
 
 ## THIS FILE DEFINES OBJECTS BY GIVING THEM A RAY COLLISION FUNCTION THAT RETURNS A HITINFO
 
@@ -13,7 +13,7 @@ class Scene:
     def __init__(self, AO, useSky):
         self.sky = Sky(AO=AO, useSky=useSky)
         self.objects = []
-        self.path = "pytracer\\world.json"
+        self.path = pathlib.Path(__file__).resolve().parent / pathlib.Path("..\\world.json")
 
     def addObject(self, object):
         self.objects.append(object)
