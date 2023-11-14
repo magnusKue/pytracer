@@ -46,6 +46,9 @@ rt = rendertarget.PygameWIN(
     path="C:\\Users\\Magnus\\Magnus\\Code\\py\\raytracer\\v01\\pytracer\\output\\output2.ppm"
 )
 
+if sys.version_info[0:2] != (3, 10):
+    raise Exception('Requires python 3.10')
+
 # render the scene and get time diff
 deltaTime = camera.render(renderTarget=rt, scene=scene)        
 
