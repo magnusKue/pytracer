@@ -38,7 +38,10 @@ To denoise a render: Run "denoiser/denoise.py", choose the input file in the fir
 | results/ | All of my renders (even those from older more primitive versions of the raytracer) |
 | └ results/denoised | Denoised versions of some of the renders |
 | └ results/fails | Funny failed renders luckily i dont have many of those.. or sadly |
-| output/ | This is where the resulting image file of a render is written to (also overwriting old ones!)|
+| output.ppm | Default location for the resulting image file of a render (also overwriting old ones!)|
 | src/ | This is where the code resides |
 | world.json | This is the file that stores all your scenes. You can choose which one to load in main.py or just add objects manually |
 | requirements.txt | All required librarys. Use "pip install -r requirements.txt" to install them |
+
+---
+## ARGS
