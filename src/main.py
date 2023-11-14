@@ -11,8 +11,9 @@ import rendertarget, material
 
 defaultSamples = 50
 defaultAR = 16/9
-defaultImageWidth = 50
+defaultImageWidth = 5
 defaultBounceCap = 6
+defaultDest = pathlib.Path(__file__).resolve().parent / pathlib.Path("../output.ppm")
 
 parser = argparse.ArgumentParser(description='\x1b[1;32;40mA simple python raytracer\x1b[0m')
 color = '\x1b[0;33;40m'
@@ -21,6 +22,7 @@ parser.add_argument('--scene', "-S", "-scn", type=str, help=color+'Load a scene 
 parser.add_argument('--samples', "-s", "-smp", type=int, help=color+f'Number of samples per pixel. Default is {defaultSamples}'+colorEnd)
 parser.add_argument('--bounces', "-b", "-bnc", type=int, help=color+f'Ray bounce cap. Default is {defaultBounceCap}'+colorEnd)
 parser.add_argument('--resolution', "-r", "-res", type=str, help=color+f'Image resolution as WIDTHxHEIGHT (Bsp: "600x400"). Default is {defaultImageWidth}x{max(1, int(defaultImageWidth / defaultAR))}'+colorEnd)
+parser.add_argument('--destination', "-d", "-dest", type=str, help=color+f'Path to the rendered image. Default is {pathlib.Path(__file__).resolve().parent / pathlib.Path("../output.ppm")}'+colorEnd)
 args = parser.parse_args()
 
 res = None
@@ -51,7 +53,7 @@ random.seed(24453)
 rt = rendertarget.PygameWIN(
     resolution=[camera.imageWidth, camera.imageHeight],
     maxColorValue=255,
-    path= pathlib.Path(__file__).resolve().parent / pathlib.Path("../output.ppm")
+    path= args.destination if args.destination else defaultDest
 )
 
 # render the scene and get time diff
