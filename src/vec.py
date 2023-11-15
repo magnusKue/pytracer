@@ -108,4 +108,4 @@ class point3(vec3):
         super().__init__(x, y, z)
 
 def listToPoint(l:list):
-    return point3(l[0], l[1], l[2])
+    return point3(float(l[0]), float(l[1]), float(l[2]))

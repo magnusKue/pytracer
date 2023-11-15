@@ -74,4 +74,4 @@ class col:
         return col(self.r,self.g,self.b)
 
 def listToCol(l:list):
-    return col(l[0], l[1], l[2])
+    return col(float(l[0]), float(l[1]), float(l[2]))

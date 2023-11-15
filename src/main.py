@@ -10,6 +10,7 @@ from color import *
 from argParser import Parser
 from camera import *
 import rendertarget, material
+from error import Error
 
 argParser = Parser(
     defaultSamples = 150,
@@ -61,7 +62,12 @@ else:
     )
 
 # render the scene and get time diff
-
-deltaTime = camera.render(renderTarget=rt, scene=scene)        
-
+try:
+    deltaTime = camera.render(renderTarget=rt, scene=scene)        
+except KeyboardInterrupt:
+    Error.raiseError(
+        type="Rendering interrupted",
+        info="quitting.",
+        quitSrc=True
+    )
 rt.finish(deltaT = deltaTime)
