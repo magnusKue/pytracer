@@ -112,6 +112,7 @@ class PygameWIN(Rendertarget):
         ar = self.resolution[1]/self.resolution[0]
         self.winHeight = self.winWidth * ar
 
+        self.bgIcon = pygame.transform.scale2x(pygame.image.load(pathlib.Path(__file__).resolve().parent / pathlib.Path("../res/iconBG.png")))
         programIcon = pygame.image.load(pathlib.Path(__file__).resolve().parent / pathlib.Path("../res/icon.png"))
         pygame.display.set_icon(programIcon)
 
@@ -120,6 +121,7 @@ class PygameWIN(Rendertarget):
 
         self.renderTexture = pygame.Surface(resolution)
         self.renderTexture.fill((87, 80, 89))
+        self.renderTexture.blit(self.bgIcon, ((0.5 * self.resolution[0]) - (0.5 * self.bgIcon.get_width()) , ((0.5 * self.resolution[1]) - (0.5 * self.bgIcon.get_height())) *.7))
 
         self.debugger = Debug(
             surface=self.root, 
