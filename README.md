@@ -40,7 +40,7 @@ To denoise a render: Run "denoiser/denoise.py", choose the input file in the fir
 | └ results/fails | Funny failed renders luckily i dont have many of those.. or sadly |
 | output.ppm | Default location for the resulting image file of a render (also overwriting old ones!)|
 | src/ | This is where the code resides |
-| world.json | This is the file that stores all your scenes. You can choose which one to load in main.py or just add objects manually |
+| world.json | This is the file that stores all your scenes. You can choose which one to load using "--scene". |
 | requirements.txt | All required librarys. Use "pip install -r requirements.txt" to install them |
 
 ---
