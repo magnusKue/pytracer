@@ -6,13 +6,15 @@ from scene import *
 from hitinfo import *
 
 class Camera:
-    def __init__(self, samples:int, aspectRatio:float, imgWidth:int, maxBounces:int, ambientLight:col=col(0,0,0), useSky=False) -> None:
+    def __init__(self, samples:int, imgWidth:int, imgHeight:int, maxBounces:int, ambientLight:col=col(0,0,0), useSky=False) -> None:
         
         ## IMAGE VALUES
-        self.imageAR = aspectRatio # aspect ratio
         self.imageWidth = imgWidth
-        self.imageHeight = max(1, int(self.imageWidth / self.imageAR))
-        self.allPixels = self.imageHeight * self.imageWidth
+        self.imageHeight = imgHeight
+        self.numPixels = self.imageHeight * self.imageWidth
+
+        print(self.imageHeight)
+        print(self.imageWidth)
 
         ## SETTINGS
         self.samples = samples
@@ -22,7 +24,7 @@ class Camera:
 
         self.focalLength = 1.0
         self.viewportH = 2.0
-        self.viewportW = self.viewportH * self.imageWidth/self.imageHeight
+        self.viewportW = self.viewportH * float(self.imageWidth/self.imageHeight)
         self.cameraCenter = point3(0,0,0)
 
         # size of the viewport

@@ -14,8 +14,8 @@ from error import Error
 
 argParser = Parser(
     defaultSamples = 30,
-    defaultAR = 16/9,
     defaultImageWidth = 200,
+    defaultImageHeight = 160,
     defaultBounceCap = 4,
     defaultDest = pathlib.Path(__file__).resolve().parent / pathlib.Path("../output.ppm"),
     defaultPreview = True,
@@ -23,15 +23,10 @@ argParser = Parser(
 )
 args = argParser.getArgs()
 
-res = None
-if args.resolution:
-    res = [int(args.resolution.split("x")[0]), int(args.resolution.split("x")[1])]
-
-
 camera = Camera(
     samples=args.samples, 
-    aspectRatio= max(1, float(res[0]/res[1])) if res else argParser.defaultAR,
-    imgWidth=res[0] if res else argParser.defaultImageWidth, # note: if not given the height is calculated from the width and the aspect ratio
+    imgWidth=int(argParser.resolution[0]) if args.resolution else argParser.defaultImageWidth, # note: if not given the height is calculated from the width and the aspect ratio
+    imgHeight=int(argParser.resolution[1]) if args.resolution else argParser.defaultImageHeight,
     maxBounces=args.bounces, 
     ambientLight=col(.4, .4, .8),
     useSky=True
@@ -70,4 +65,6 @@ except KeyboardInterrupt:
         info="quitting.",
         quitSrc=True
     )
+
+# keep preview window alive
 rt.finish(deltaT = deltaTime)
