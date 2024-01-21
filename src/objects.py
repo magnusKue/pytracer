@@ -5,6 +5,24 @@ from hitinfo import *
 from material import *
 from math import sqrt, floor
 
+## THIS FILE DEFINES OBJECTS BY GIVING THEM A RAY COLLISION FUNCTION THAT RETURNS A HITINFO
+
+class Sky:
+    def __init__(self, useSky, ambientLight, bendingFac=1):
+        self.useSky = useSky
+        self.ambientLighting = ambientLight
+        self.bendingFac = bendingFac
+
+    def getSkyColor(self, ray):
+        if not self.useSky:
+            return self.ambientLighting
+        else:
+            # render sky by belending between two colors depending on the ray "angle" and scaling the result by the ambient occlusion
+            unitDirection = normalize(ray.direction)
+            lerpFac = 0.5 * (unitDirection.y*self.bendingFac+1)
+            resColor = ((1-lerpFac) * col(0.0, 0.0, 0.0)) + (lerpFac * col(1.0, 1.0, 1.0)) # lerps between two colors 
+            return resColor.clamp() * self.ambientLighting 
+        
 class Object:
     def __init__(self):
         pass
@@ -12,21 +30,6 @@ class Object:
     def checkCollision(self, r, tmin, tmax):
         pass
 
-class Sky:
-    def __init__(self, useSky, AO, bendingFac=1):
-        self.useSky = useSky
-        self.ambientOcclusion = AO
-        self.bendingFac = bendingFac
-
-    def getSkyColor(self, ray):
-        if not self.useSky:
-            return self.ambientOcclusion
-        else:
-            # render sky by belending between two colors depending on the ray "angle" and scaling the result by the ambient occlusion
-            unitDirection = normalize(ray.direction)
-            lerpFac = 0.5 * (unitDirection.y*self.bendingFac+1)
-            resColor = ((1-lerpFac) * col(0.0, 0.0, 0.0)) + (lerpFac * col(1.0, 1.0, 1.0)) # lerps between two colors 
-            return resColor.clamp() * self.ambientOcclusion 
 
 class Sphere(Object):
     def __init__(self, pos:point3, radius, material:Material):

@@ -13,9 +13,9 @@ import rendertarget, material
 from error import Error
 
 argParser = Parser(
-    defaultSamples = 150,
+    defaultSamples = 30,
     defaultAR = 16/9,
-    defaultImageWidth = 400,
+    defaultImageWidth = 200,
     defaultBounceCap = 4,
     defaultDest = pathlib.Path(__file__).resolve().parent / pathlib.Path("../output.ppm"),
     defaultPreview = True,
@@ -33,12 +33,12 @@ camera = Camera(
     aspectRatio= max(1, float(res[0]/res[1])) if res else argParser.defaultAR,
     imgWidth=res[0] if res else argParser.defaultImageWidth, # note: if not given the height is calculated from the width and the aspect ratio
     maxBounces=args.bounces, 
-    ambientOcclusion=col(.4, .4, .8),
+    ambientLight=col(.4, .4, .8),
     useSky=True
 )
 
 scene = Scene(
-    AO=col(1,1,1),
+    ambientLight=col(1,1,1),
     useSky=True
 )
 scene.load(args.scene)

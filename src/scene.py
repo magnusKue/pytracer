@@ -11,12 +11,10 @@ from objects import *
 
 
 
-## THIS FILE DEFINES OBJECTS BY GIVING THEM A RAY COLLISION FUNCTION THAT RETURNS A HITINFO
-
 class Scene:
     ## THIS CLASS HOLDS OUR WORLD AND ALL OBJECT INSTANCES
-    def __init__(self, AO, useSky):
-        self.sky = Sky(AO=AO, useSky=useSky)
+    def __init__(self, ambientLight, useSky):
+        self.sky = Sky(ambientLight=ambientLight, useSky=useSky)
         self.objects = []
         self.path = pathlib.Path(__file__).resolve().parent / pathlib.Path("..\\world.json")
 
@@ -25,6 +23,15 @@ class Scene:
 
     def load(self, scene):
         self.objects=[]
+
+        if not scene:
+            Error.raiseError(
+                type="Scene could not be loaded!",
+                info="Please enter a valid scene name using the -S argument. Use --help for a list of all options.",
+                quitSrc=True
+            )
+
+        # open and load world.json
         try:
             with open(self.path, 'r') as world:
                 data = json.load(world)[scene]
@@ -35,8 +42,10 @@ class Scene:
                 quitSrc=True
             )
             pass
+
+        # load scene settings
         try:
-            self.sky.ambientOcclusion = listToCol(data["ambient_occlusion"])
+            self.sky.ambientLighting = listToCol(data["ambient_occlusion"])
             self.sky.useSky = bool(data["use_sky_gradient"])
             self.sky.bendingFac = float(data["sky_bending"])
         except:
@@ -46,9 +55,11 @@ class Scene:
                 quitSrc=True
             )
 
+        # load the objects
         for obj in data["objects"]:
             mat = None
 
+            # parse color
             color = col(.9,.9,.9)
             if obj["type"] != "floor":
                 try:
@@ -59,7 +70,8 @@ class Scene:
                             info="Please fix world.json and try again",
                             quitSrc=True
                         )
-            
+                    
+            # parse material
             try:
                 match obj["material"]["type"]:
                     case "emissive":
@@ -82,6 +94,7 @@ class Scene:
                     quitSrc=True
                 )
 
+            # parse object type and add the object
             error = None
             match obj["type"]:
                 case "sphere":

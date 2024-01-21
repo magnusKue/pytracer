@@ -6,7 +6,7 @@ from scene import *
 from hitinfo import *
 
 class Camera:
-    def __init__(self, samples:int, aspectRatio:float, imgWidth:int, maxBounces:int, ambientOcclusion:col=col(0,0,0), useSky=False) -> None:
+    def __init__(self, samples:int, aspectRatio:float, imgWidth:int, maxBounces:int, ambientLight:col=col(0,0,0), useSky=False) -> None:
         
         ## IMAGE VALUES
         self.imageAR = aspectRatio # aspect ratio
@@ -17,7 +17,7 @@ class Camera:
         ## SETTINGS
         self.samples = samples
         self.maxBounces = maxBounces
-        self.ambientOcclusion = ambientOcclusion
+        self.ambientLight = ambientLight
         self.useSky = False
 
         self.focalLength = 1.0
